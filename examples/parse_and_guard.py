@@ -6,7 +6,10 @@ Demonstrates zero-dependency, Git-native integrity enforcement.
 import sys
 from pathlib import Path
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+# Add project root directory to Python system path to ensure module visibility
+root_dir = Path(__file__).resolve().parent.parent
+if str(root_dir) not in sys.path:
+    sys.path.insert(0, str(root_dir))
 
 from shisei_protocol import ShiseiGuard
 from parsers.markdown_parser import MarkdownSpecParser
