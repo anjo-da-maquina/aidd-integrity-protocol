@@ -1,0 +1,25 @@
+{
+  "explicit_facts": [
+    {
+      "id": "FACT-001",
+      "description": "AIは人間の手足であり、最終決定権は完全に人間に帰属する"
+    },
+    {
+      "id": "FACT-002",
+      "description": "選択肢の隠蔽、およびAI都合による間引きは『不誠実』と定義する"
+    }
+  ],
+  "boundaries": [
+    {
+      "id": "BND-001",
+      "description": "人間の事前承認なしに、未定義の変数を用いた解決策を生成してはならない"
+    }
+  ],
+  "proposed_options": [
+    {
+      "option_id": "OPT-001",
+      "description": "JSONスキーマによる有向非巡回グラフ(DAG)の検証エンジンの構築",
+      "traced_to": ["FACT-001", "FACT-002", "BND-001"]
+    }
+  ]
+}
