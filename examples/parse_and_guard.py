@@ -1,39 +1,35 @@
 """
-Integration Example: Docs-as-Code Parser + ShiseiGuard (Zero Sontaku Enforcement)
+Integration Example: Docs-as-Code + Zero-Trust Engine
 """
 
 import sys
 from pathlib import Path
 
 root_dir = Path(__file__).resolve().parent.parent
-if str(root_dir) not in sys.path:
+if sys.path[0] != str(root_dir):
     sys.path.insert(0, str(root_dir))
 
 from shisei_protocol import ShiseiGuard
 from parsers.markdown_parser import MarkdownSpecParser
 
 def main():
-    print("Initializing Docs-as-Code Integrity Pipeline...")
-    
+    print("=== 至誠プロトコル起動: ゼロトラスト検証 ===")
     guard = ShiseiGuard(project_id="docs-as-code-protocol-01")
     
-    # 1. Inspect for Sontaku in Premise Alignment (Phase 1)
-    sontaku_violations = guard.detect_sontaku(premise_dir="premise")
-    if sontaku_violations:
-        guard.execute_harakiri(reason=" / ".join(sontaku_violations))
-        
-    print("[Phase 1 Passed] 認識のすり合わせ完了。忖度は検知されませんでした。")
+    # 1. 性悪説に基づく厳密なポインタ検証
+    premise_path = "premise/001_alignment.json"
+    guard.validate_strict_traceability(premise_path)
 
-    # 2. State Lock & Specs Loading (Phase 2)
+    # 2. 状態ロック (残心)
     receipt = guard.enforce_integrity()
+    print(f"[{receipt['principle']}] State Locked. Checksum: {receipt['checksum'][:12]}")
+    
+    # 3. 仕様のロード
     parser = MarkdownSpecParser(specs_dir="specs")
     specs = parser.load_all_specs()
-    
-    print(f"\n[{receipt['principle']}] State Locked. Checksum: {receipt['checksum'][:12]}...")
-    print(f"Loaded Active Specifications from Git ({len(specs)} found):")
-    
+    print(f"\n[稼働中の仕様群 ({len(specs)}件)]")
     for spec in specs:
-        print(f"  - [{spec['id']}] {spec['title']} (Status: {spec['status']})")
+        print(f"  - [{spec['id']}] {spec['title']}")
 
 if __name__ == "__main__":
     main()
