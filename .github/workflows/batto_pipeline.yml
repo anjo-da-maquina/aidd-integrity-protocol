@@ -41,6 +41,11 @@ jobs:
           analyzer.execute_audit()
           "
 
+      - name: 5.5 蛇 (Hebi Oracle - 物理空間の単独潜入監査)
+        run: |
+          echo "=== 忍びの刃：『蛇』による物理空間の偽装監査を開始 ==="
+          python shinobi/hebi_oracle.py
+
       - name: 6. 残心 (Zanshin - State Lock)
         if: success()
         run: |
