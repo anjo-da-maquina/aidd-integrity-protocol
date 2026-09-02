@@ -24,6 +24,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install networkx
 
+      - name: 3.2 影討ち (Kageuchi - 使い回しの封殺)
+        run: |
+          echo "=== 忍びの刃：『影討ち』によるリプレイ攻撃の監査を開始 ==="
+          python shinobi/kageuchi_nonce.py
+
       - name: 3.5 鉄菱 (Tetsubishi - 前提条件の改ざん防止)
         run: |
           echo "=== 忍びの刃：『鉄菱』によるルールの不変性チェックを開始 ==="
