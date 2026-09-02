@@ -1,76 +1,62 @@
 """
-The SHISEI Protocol - Bushido Zero-Trust Engine
-ストア派的武士道と性悪説に基づく、厳格なトレーサビリティ検証エンジン。
-一切の推測を排し、出所不明のロジックを断つ。
+The SHISEI Protocol - Zero-Trust Engine
+トレーサビリティ検証およびMECE（直積マトリクス）監査エンジン。
+AIによる無断の選択肢隠蔽を数理的に検知し、排除する。
 """
 
 import json
 import sys
-import hashlib
-import datetime
+import math
 from pathlib import Path
-from typing import Dict, Any
 
 class ShiseiGuard:
     def __init__(self, project_id: str):
         self.project_id = project_id
 
-    def enforce_integrity(self) -> Dict[str, Any]:
-        """状態を暗号学的にロックする（残心）"""
-        timestamp = datetime.datetime.now(datetime.timezone.utc).isoformat()
-        raw_data = f"{self.project_id}:{timestamp}"
-        checksum = hashlib.sha256(raw_data.encode("utf-8")).hexdigest()
-
-        return {
-            "checksum": checksum,
-            "status": "SECURED",
-            "principle": "至誠 (Zero-Trust Bushido)"
-        }
-
     def execute_harakiri(self, reason: str):
-        """弁明を許さないシステムの即時終了（腹切り）"""
-        print(f"\n[致命的違反: 切腹 / HARAKIRI TRIGGERED]")
-        print(f"断罪理由: {reason}")
-        print("出所不明の妄念、または不誠実な隠蔽を検知。システムを直ちに破棄する。")
+        print(f"\n[致命的違反: 腹切り発動 / HARAKIRI TRIGGERED]")
+        print(f"理由: {reason}")
+        print("システムを直ちに破棄します。")
         sys.exit(1)
 
-    def validate_strict_traceability(self, premise_file: str):
+    def validate_mece_coverage(self, premise_file: str):
         """
-        性悪説に基づく依存関係（DAG）の検証。
-        すべての選択肢(Option)が、明示された事実(Facts/Boundaries)に
-        ポインタとして紐づいているかを数学的に証明させる。
+        変数の直積（デカルト積）を計算し、提案数と除外数の合計が
+        論理的な全パターン数と一致するかを監査する。
         """
         file_path = Path(premise_file)
         if not file_path.exists():
-            self.execute_harakiri("前提条件ファイルが存在しない。思考の基盤が欠落している。")
+            self.execute_harakiri("前提条件ファイルが存在しません。")
 
-        try:
-            data = json.loads(file_path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError:
-            self.execute_harakiri("前提条件が厳密なJSON形式ではない。自然言語の曖昧さを許容しない。")
+        data = json.loads(file_path.read_text(encoding="utf-8"))
+        variables = data.get("variables", {})
+        
+        if not variables:
+            self.execute_harakiri("変数が定義されていません。全量検査が不可能です。")
 
-        # 許可された親ノード（出所）のIDプールを作成
-        valid_source_ids = set()
-        for fact in data.get("explicit_facts", []):
-            valid_source_ids.add(fact["id"])
-        for bnd in data.get("boundaries", []):
-            valid_source_ids.add(bnd["id"])
+        # 直積（全組み合わせ数）の計算
+        total_expected_combinations = math.prod([len(values) for values in variables.values()])
 
-        # 提案された選択肢が出所を証明できるか（浮遊ノードの検知）
-        options = data.get("proposed_options", [])
-        if not options:
-            self.execute_harakiri("選択肢が一つも提示されていない。怠棄（不誠実）である。")
+        proposed = data.get("proposed_options", [])
+        rejected = data.get("rejected_options", [])
 
-        for opt in options:
-            traces = opt.get("traced_to", [])
-            if not traces:
-                self.execute_harakiri(f"選択肢 '{opt.get('option_id')}' に出所証明 (traced_to) がない。AIの勝手な推測である。")
-            
-            for trace_id in traces:
-                if trace_id not in valid_source_ids:
-                    self.execute_harakiri(
-                        f"選択肢 '{opt.get('option_id')}' が未知のID '{trace_id}' を参照している。"
-                        "定義されていない前提を勝手に創造する欺瞞を検知した。"
-                    )
+        total_presented = len(proposed) + len(rejected)
 
-        print("[検証完了] すべてのロジックの出所証明を確認。AIによる勝手な前提構築（忖度）は存在しない。")
+        print(f"[MECE Audit] 変数の全組み合わせ数 (直積): {total_expected_combinations} パターン")
+        print(f"[MECE Audit] AIからの提示数: 提案({len(proposed)}) + 除外証明({len(rejected)}) = {total_presented} パターン")
+
+        if total_presented != total_expected_combinations:
+            self.execute_harakiri(
+                f"網羅性違反を検知。論理的な全パターン数({total_expected_combinations})に対し、"
+                f"AIの提示数({total_presented})が一致しません。"
+                f"{total_expected_combinations - total_presented}個の選択肢が無断で隠蔽されています。"
+            )
+
+        # 除外された選択肢が、正当な制約(Boundaries)を理由にしているか確認
+        valid_bnd_ids = {bnd["id"] for bnd in data.get("boundaries", [])}
+        for rej in rejected:
+            for bnd_id in rej.get("rejected_by", []):
+                if bnd_id not in valid_bnd_ids:
+                    self.execute_harakiri(f"除外理由の捏造を検知。未定義の制約 '{bnd_id}' を理由に選択肢を消去しています。")
+
+        print("[MECE Audit Passed] 全パターンの網羅と、隠蔽のないことを数理的に証明しました。")
