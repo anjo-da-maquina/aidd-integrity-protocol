@@ -6,7 +6,7 @@ The SHINOBI Protocol - Kumonoito (蜘蛛の糸) Analyzer
 
 import sys
 import networkx as nx
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Any
 
 class KumonoitoAnalyzer:
     def __init__(self):
