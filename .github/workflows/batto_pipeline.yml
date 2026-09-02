@@ -44,6 +44,11 @@ jobs:
           echo "=== 忍びの刃：『蛍火』によるカナリア・トラップの監視を開始 ==="
           python shinobi/hotarubi_canary.py
 
+      - name: 4.7 水鏡 (Mizukagami - 意味論的ドリフト監査)
+        run: |
+          echo "=== 忍びの刃：『水鏡』によるハルシネーション・言葉遊びの監視を開始 ==="
+          python shinobi/mizukagami_semantic.py
+
       - name: 5. 蜘蛛の糸 (Kumonoito Protocol - 裏の資金監査)
         run: |
           echo "=== 忍びの刃：有向グラフによる資金還流の監査を開始 ==="
