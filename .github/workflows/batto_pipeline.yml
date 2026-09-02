@@ -39,6 +39,11 @@ jobs:
           echo "=== 侍の刃：直積マトリクスと出所証明の検証を開始 ==="
           python examples/parse_and_guard.py
 
+      - name: 4.5 蛍火 (Hotarubi - 機密漏洩・インジェクション監査)
+        run: |
+          echo "=== 忍びの刃：『蛍火』によるカナリア・トラップの監視を開始 ==="
+          python shinobi/hotarubi_canary.py
+
       - name: 5. 蜘蛛の糸 (Kumonoito Protocol - 裏の資金監査)
         run: |
           echo "=== 忍びの刃：有向グラフによる資金還流の監査を開始 ==="
