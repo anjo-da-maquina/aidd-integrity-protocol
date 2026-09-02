@@ -1,6 +1,5 @@
 name: AIDD Integrity Protocol - Batto (抜刀)
 
-# リポジトリに変更がプッシュされた際、または手動で実行
 on:
   push:
     branches: [ "main" ]
@@ -25,6 +24,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install networkx
 
+      - name: 3.5 鉄菱 (Tetsubishi - 前提条件の改ざん防止)
+        run: |
+          echo "=== 忍びの刃：『鉄菱』によるルールの不変性チェックを開始 ==="
+          python shinobi/tetsubishi_commitment.py
+
       - name: 4. 侍の刃 (Shisei Protocol - 表の論理監査)
         run: |
           echo "=== 侍の刃：直積マトリクスと出所証明の検証を開始 ==="
@@ -33,7 +37,6 @@ jobs:
       - name: 5. 蜘蛛の糸 (Kumonoito Protocol - 裏の資金監査)
         run: |
           echo "=== 忍びの刃：有向グラフによる資金還流の監査を開始 ==="
-          # 一旦、蜘蛛の糸を単独で起動し、文法や構造に恥がないかテストする
           python -c "
           from shinobi.kumonoito_analyzer import KumonoitoAnalyzer
           analyzer = KumonoitoAnalyzer()
@@ -51,3 +54,9 @@ jobs:
         run: |
           echo "すべての刃が異常なしと判定。AIの思考と資金の流れに『恥』は存在しない。"
           echo "プロトコルは静謐を保ち、稼働を継続する。"
+
+      - name: 7. 介錯 (Kaishaku - 連座制キルスイッチ)
+        if: failure()
+        run: |
+          echo "=== 致命的な恥（不正）を検知。介錯を実行する ==="
+          python shinobi/kaishaku_killswitch.py
