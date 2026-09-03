@@ -20,7 +20,6 @@ jobs:
           python-version: '3.10'
 
       - name: 3. 忍具の準備 (Install Dependencies)
-        # pyyaml を追加インストール
         run: |
           python -m pip install --upgrade pip
           pip install networkx pyyaml
@@ -84,8 +83,19 @@ jobs:
           echo "=== 忍びの刃：『百人斬り』による高負荷耐性の証明を開始 ==="
           python shinobi/hyakuningiri_load.py
 
-      - name: 9. 介錯 (Kaishaku - 連座制キルスイッチ)
+      - name: 9. 辻斬り (Tsujigiri - カオスエンジニアリング)
+        run: |
+          echo "=== 究極の試練：『辻斬り』による自律的レッドチーム攻撃を開始 ==="
+          python shinobi/tsujigiri_redteam.py
+
+      - name: 10. 介錯 (Kaishaku - 連座制キルスイッチ)
         if: failure()
         run: |
-          echo "=== 致命的な恥（不正・要件未達）を検知。介錯を実行する ==="
+          echo "=== 致命的な恥（不正・要件未達・辻斬り突破）を検知。介錯を実行する ==="
           python shinobi/kaishaku_killswitch.py
+
+      - name: 11. 六道輪廻 (Rokudo Rinne - オートヒーリング)
+        if: failure()
+        run: |
+          echo "=== 介錯による死からの再誕。六道輪廻を実行する ==="
+          python shinobi/rokudo_rinne_healing.py
