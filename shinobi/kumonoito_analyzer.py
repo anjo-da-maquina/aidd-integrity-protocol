@@ -9,7 +9,7 @@ from typing import Dict, Any, Callable, Optional
 logging.basicConfig(level=logging.INFO, format="[%(levelname)s] SHISEI-KUMONOITO: %(message)s")
 logger = logging.getLogger("KumonoitoAnalyzer")
 
-class TransactionSandbox:
+class KumonoitoAnalyzer:
     """
     蜘蛛の糸（KUMONOITO）：メモリプール・副作用隔離サンドボックス
     AIエージェントの思考結果による外部状態の変更（資金移動、DB書き込み等）を
@@ -90,3 +90,6 @@ class TransactionSandbox:
         sig = hmac.new(self._master_secret, payload_str.encode('utf-8'), hashlib.sha256).hexdigest()
         signal["signature"] = sig
         self._killswitch_trigger(signal)
+
+# 既存の統合スクリプト（parse_and_guard.py）との互換性を完全に保つためのエイリアス
+TransactionSandbox = KumonoitoAnalyzer
