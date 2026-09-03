@@ -98,5 +98,36 @@ flowchart TD
     class Mimawarigumi,Kumonoito daemon;
     class Kaishaku killswitch;
     class Zanshin success;
+
+Repository Architecture
+
+aidd-integrity-protocol/
+├── shinobi/                 # 忍の刃（ミドルウェア・常駐デーモン・カオス・オートヒーリング）
+│   ├── kageboushi_middleware.py
+│   ├── mimawarigumi_daemon.py
+│   ├── tetsubishi_commitment.py
+│   ├── kaishaku_killswitch.py
+│   ├── kumonoito_analyzer.py
+│   ├── hebi_oracle.py
+│   ├── kageuchi_nonce.py
+│   ├── hotarubi_canary.py
+│   ├── mizukagami_semantic.py
+│   ├── mekiki_auditor.py
+│   ├── gozen_jiai_e2e.py
+│   ├── hyakuningiri_load.py
+│   ├── tsujigiri_redteam.py
+│   └── rokudo_rinne_healing.py
+├── premise/                 # 前提条件および要件定義（鉄菱による不変性ロック対象）
+│   ├── 001_alignment.json
+│   └── 002_requirements.yml
+├── shinobi/contracts/       # 目利きによる鑑定対象のスマートコントラクト
+│   ├── ZKDistribution.sol
+│   └── SuigetsuHoneypot.sol
+├── specs/                   # Git-tracked Markdown specification documents
+│   └── REQ-001-integrity.md
+├── parsers/                 # Zero-dependency Docs-as-Code specification parser
+│   └── markdown_parser.py
+└── examples/                # 侍の論理監査統合デモ
+    └── parse_and_guard.py
     class Tsujigiri,ChaosLayer chaos;
     class RokudoRinne healing;
