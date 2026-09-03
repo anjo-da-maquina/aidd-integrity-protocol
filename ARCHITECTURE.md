@@ -6,67 +6,74 @@
 
 ---
 
-## 統合監査フロー（抜刀パイプライン）
+## デュアルレイヤー監査アーキテクチャ（表と裏の陣）
 
-以下の図は、システムにデータが入力されてから、ブロックチェーンへの処理が許可されるまでの全防壁のプロセスを視覚化したものである。
+本システムは、白日の下で堂々と論理と規律を問う「表の侍」と、暗闇に潜み実体や裏の帳簿を監査する「裏の忍」の、2つのレイヤーが重なり合って動作する。
 
 ```mermaid
 graph TD
-    Start([システム起動 / コードPush]) --> Kageuchi
+    Start([システム起動 / コードPush])
 
-    subgraph stage1 ["1. 忍びの刃 - 前処理編"]
-        Kageuchi[影討ち: リプレイ攻撃検知\nNonceの使い回しを斬る] --> Tetsubishi
-        Tetsubishi[鉄菱: ルール改ざん検知\n前提条件JSONのハッシュ不一致を斬る]
-    end
-    
-    Tetsubishi --> Samurai
-    
-    subgraph stage2 ["2. 侍の刃 - 論理編"]
-        Samurai[侍: 直積・MECE隠蔽監査\nAIによる選択肢の隠蔽を算数で斬る]
-    end
-    
-    Samurai --> Hotarubi
-    
-    subgraph stage3 ["3. 忍びの刃 - 意味・機密編"]
-        Hotarubi[蛍火: 情報漏洩検知\nカナリアトークン漏洩を斬る] --> Mizukagami
+    %% --------------------------------
+    %% 裏の陣：忍（SHINOBI LAYER）
+    %% --------------------------------
+    subgraph Shadow ["【 裏の陣：忍 (SHINOBI) 】- 暗部と実態の始末屋"]
+        Kageuchi[影討ち: リプレイ攻撃検知\nNonceの使い回しを斬る]
+        Tetsubishi[鉄菱: ルール改ざん検知\n前提条件のハッシュ不一致を斬る]
+        Hotarubi[蛍火: 情報漏洩検知\nカナリアトークン漏洩を斬る]
         Mizukagami[水鏡: ハルシネーション検知\n意味論的な言葉遊びを斬る]
+        Kumonoito[蜘蛛の糸: マネロン還流検知\nグラフ上の不自然な資金ループを斬る]
+        Hebi[蛇: 物理空間監査\nダミー法人・空箱アドレスを斬る]
+        Mekiki[目利き: SC鑑定\n腹切りロジックの削除を斬る]
     end
-    
+
+    %% --------------------------------
+    %% 表の陣：侍（SAMURAI LAYER）
+    %% --------------------------------
+    subgraph Surface ["【 表の陣：侍 (SAMURAI) 】- 論理と規律の裁定者"]
+        Samurai[侍: 至誠プロトコル\nAIによるMECE隠蔽を直積演算で斬る]
+    end
+
+    %% 実行順序のフロー（表と裏を行き来する）
+    Start --> Kageuchi
+    Kageuchi --> Tetsubishi
+    Tetsubishi --> Samurai
+    Samurai --> Hotarubi
+    Hotarubi --> Mizukagami
     Mizukagami --> Kumonoito
-    
-    subgraph stage4 ["4. 忍びの刃 - 実体・資金編"]
-        Kumonoito[蜘蛛の糸: マネロン還流検知\n有向グラフ上の不自然な資金ループを斬る] --> Hebi
-        Hebi[蛇: 物理空間監査\nダミー法人・空箱アドレスを斬る] --> Mekiki
-        Mekiki[目利き: スマートコントラクト鑑定\n腹切りロジックの削除・刃こぼれを斬る]
-    end
-    
-    Mekiki --> Zanshin
-    Zanshin([残心: 監査完了\n異常なし])
+    Kumonoito --> Hebi
+    Hebi --> Mekiki
+    Mekiki --> Zanshin([残心: 監査完了 / 異常なし])
     
     %% キルスイッチへの連動（いずれかのステップで失敗した場合）
-    Kageuchi -. 恥を検知 .-> Kaishaku
-    Tetsubishi -. 恥を検知 .-> Kaishaku
-    Samurai -. 恥を検知 .-> Kaishaku
-    Hotarubi -. 恥を検知 .-> Kaishaku
-    Mizukagami -. 恥を検知 .-> Kaishaku
-    Kumonoito -. 恥を検知 .-> Kaishaku
-    Hebi -. 恥を検知 .-> Kaishaku
-    Mekiki -. 恥を検知 .-> Kaishaku
-    
     Kaishaku{介錯: 連座制キルスイッチ\nIAM/VPC/SCを即時凍結し自決}
+    
+    Kageuchi -. 恥 .-> Kaishaku
+    Tetsubishi -. 恥 .-> Kaishaku
+    Samurai -. 恥 .-> Kaishaku
+    Hotarubi -. 恥 .-> Kaishaku
+    Mizukagami -. 恥 .-> Kaishaku
+    Kumonoito -. 恥 .-> Kaishaku
+    Hebi -. 恥 .-> Kaishaku
+    Mekiki -. 恥 .-> Kaishaku
 
     %% 残心通過後のブロックチェーン領域
     Zanshin ==> |デプロイ許可| Blockchain[(Ethereum / Blockchain)]
     Blockchain --> Kagenui[影縫い: ZKP資金分配\n中抜きゼロの数学的証明]
     Blockchain --> Suigetsu[水月: 囮資金トラップ\n横領者のウォレットに永遠の恥を刻む]
 
+    %% --------------------------------
+    %% カラーリングとスタイル定義
+    %% --------------------------------
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
-    classDef killswitch fill:#8b0000,stroke:#ff0000,stroke-width:2px,color:#fff;
-    classDef blockchain fill:#2c3e50,stroke:#34495e,stroke-width:2px,color:#fff;
-    classDef success fill:#27ae60,stroke:#2ecc71,stroke-width:2px,color:#fff;
+    classDef samurai fill:#fdfefe,stroke:#2c3e50,stroke-width:2px,color:#2c3e50;
+    classDef shinobi fill:#17202a,stroke:#566573,stroke-width:2px,color:#ecf0f1;
+    classDef killswitch fill:#641e16,stroke:#e74c3c,stroke-width:2px,color:#fff;
+    classDef blockchain fill:#1a5276,stroke:#2980b9,stroke-width:2px,color:#fff;
+    classDef success fill:#145a32,stroke:#2ecc71,stroke-width:2px,color:#fff;
     
+    class Samurai samurai;
+    class Kageuchi,Tetsubishi,Hotarubi,Mizukagami,Kumonoito,Hebi,Mekiki shinobi;
     class Kaishaku killswitch;
-    class Blockchain blockchain;
-    class Kagenui blockchain;
-    class Suigetsu blockchain;
+    class Blockchain,Kagenui,Suigetsu blockchain;
     class Zanshin success;
