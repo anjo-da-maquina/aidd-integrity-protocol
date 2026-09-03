@@ -10,9 +10,9 @@ AIの推論を監査する「侍（論理監査）」と、実世界やシステ
 
 ## Core Philosophy
 
-*   **Zero-Trust by Default**: 開発者、AI、インフラストラクチャのいかなる構成要素も信用しない。
-*   **Immutable Integrity**: デプロイ後の要件（SLA）や前提ルールの改ざんを暗号ハッシュでロックし、後出しを許さない。
-*   **Continuous Chaos**: 予定調和のテストを捨て、自律型レッドチームによる未知の攻撃（辻斬り）で防壁を常時鍛錬する。
+* **Zero-Trust by Default**: 開発者、AI、インフラストラクチャのいかなる構成要素も信用しない。
+* **Immutable Integrity**: デプロイ後の要件（SLA）や前提ルールの改ざんを暗号ハッシュでロックし、後出しを許さない。
+* **Continuous Chaos**: 予定調和のテストを捨て、自律型レッドチームによる未知の攻撃（辻斬り）で防壁を常時鍛錬する。
 
 ---
 
@@ -98,6 +98,8 @@ flowchart TD
     class Mimawarigumi,Kumonoito daemon;
     class Kaishaku killswitch;
     class Zanshin success;
+    class Tsujigiri,ChaosLayer chaos;
+    class RokudoRinne healing;
 
 Repository Architecture
 
@@ -129,5 +131,7 @@ aidd-integrity-protocol/
 │   └── markdown_parser.py
 └── examples/                # 侍の論理監査統合デモ
     └── parse_and_guard.py
-    class Tsujigiri,ChaosLayer chaos;
-    class RokudoRinne healing;
+
+Author
+安城 巻那 (Anjo da máquina)
+Software Quality Assurance / AI Architecture
