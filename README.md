@@ -18,7 +18,7 @@ AIの推論を監査する「侍（論理監査）」と、実世界やシステ
 
 ## Architecture Diagram
 
-システム稼働中（ランタイム）における全方位監視と、カオスエンジニアリングから自己再生に至るエコシステムの全体像については、[アーキテクチャ詳細ドキュメント](./docs/architecture.md)をご参照ください。
+システム稼働中（ランタイム）における全方位監視と、カオスエンジニアリングから自己再生に至る完全なエコシステムの全体像については、[ARCHITECTURE.md](./ARCHITECTURE.md) をご参照ください。
 
 ---
 
@@ -53,3 +53,10 @@ aidd-integrity-protocol/
 │   └── markdown_parser.py
 └── examples/                # 侍の論理監査統合デモ
     └── parse_and_guard.py
+```
+
+---
+
+## Author
+**安城 巻那 (Anjo da máquina)**
+Software Quality Assurance / AI Architecture
