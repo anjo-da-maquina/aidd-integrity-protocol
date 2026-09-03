@@ -125,6 +125,10 @@ aidd-integrity-protocol/
 │   └── SuigetsuHoneypot.sol
 ├── specs/                   # Git-tracked Markdown specification documents
 │   └── REQ-001-integrity.md
+
+Author
+安城 巻那 (Anjo da máquina)
+Software Quality Assurance / AI Architecture
 ├── parsers/                 # Zero-dependency Docs-as-Code specification parser
 │   └── markdown_parser.py
 └── examples/                # 侍の論理監査統合デモ
