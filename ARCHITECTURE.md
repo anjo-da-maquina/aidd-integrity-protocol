@@ -9,33 +9,32 @@
 ## 統合監査フロー（抜刀パイプライン）
 
 以下の図は、システムにデータが入力されてから、ブロックチェーンへの処理が許可されるまでの全防壁のプロセスを視覚化したものである。
-（※GitHub上で図として自動レンダリングされます）
 
 ```mermaid
 graph TD
     Start([システム起動 / コードPush]) --> Kageuchi
 
-    subgraph 1. 忍びの刃 - 前処理編 (Pre-Audit)
+    subgraph stage1 [1. 忍びの刃 - 前処理編]
         Kageuchi[影討ち: リプレイ攻撃検知\nNonceの使い回しを斬る] --> Tetsubishi
         Tetsubishi[鉄菱: ルール改ざん検知\n前提条件JSONのハッシュ不一致を斬る]
     end
     
     Tetsubishi --> Samurai
     
-    subgraph 2. 侍の刃 - 論理編 (AI Logic Audit)
+    subgraph stage2 [2. 侍の刃 - 論理編]
         Samurai[侍: 直積・MECE隠蔽監査\nAIによる選択肢の隠蔽を算数で斬る]
     end
     
     Samurai --> Hotarubi
     
-    subgraph 3. 忍びの刃 - 意味・機密編 (Semantic & Security)
+    subgraph stage3 [3. 忍びの刃 - 意味・機密編]
         Hotarubi[蛍火: 情報漏洩検知\nカナリアトークン漏洩を斬る] --> Mizukagami
         Mizukagami[水鏡: ハルシネーション検知\n意味論的な言葉遊びを斬る]
     end
     
     Mizukagami --> Kumonoito
     
-    subgraph 4. 忍びの刃 - 実体・資金編 (Real-world & Funds)
+    subgraph stage4 [4. 忍びの刃 - 実体・資金編]
         Kumonoito[蜘蛛の糸: マネロン還流検知\n有向グラフ上の不自然な資金ループを斬る] --> Hebi
         Hebi[蛇: 物理空間監査\nダミー法人・空箱アドレスを斬る] --> Mekiki
         Mekiki[目利き: スマートコントラクト鑑定\n腹切りロジックの削除・刃こぼれを斬る]
@@ -54,18 +53,4 @@ graph TD
     Hebi -. 恥を検知 .-> Kaishaku
     Mekiki -. 恥を検知 .-> Kaishaku
     
-    Kaishaku{介錯: 連座制キルスイッチ\nIAM/VPC/SCを即時凍結し自決}
-
-    %% 残心通過後のブロックチェーン領域
-    Zanshin ==> |デプロイ許可| Blockchain[(Ethereum / Blockchain)]
-    Blockchain --> Kagenui[影縫い: ZKP資金分配\n中抜きゼロの数学的証明]
-    Blockchain --> Suigetsu[水月: 囮資金トラップ\n横領者のウォレットに永遠の恥を刻む]
-
-    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
-    classDef killswitch fill:#8b0000,stroke:#ff0000,stroke-width:2px,color:#fff;
-    classDef blockchain fill:#2c3e50,stroke:#34495e,stroke-width:2px,color:#fff;
-    classDef success fill:#27ae60,stroke:#2ecc71,stroke-width:2px,color:#fff;
-    
-    class Kaishaku killswitch;
-    class Blockchain,Kagenui,Suigetsu blockchain;
-    class Zanshin success;
+    Kaishaku{介錯: 連座制キルスイッチ\nIAM
