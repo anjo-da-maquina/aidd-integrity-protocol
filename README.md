@@ -1,10 +1,3 @@
-Markdownファイルの最下部に著者情報を追加した際にエラーが発生した原因は、Mermaid図やテキストブロックを囲むためのコードブロック（```）の閉じ忘れや、不完全な構文のままテキストが結合されていたことにあります。
-
-GitHubの `README.md` に一回のコピー＆ペーストですべてが正常に描画・反映されるよう、全てのマークダウン要素、Mermaid図、ディレクトリ構成、および著者名（安城 巻那）を正しい構文で完全に一体化したコードブロックを用意いたしました。
-
-以下のコードブロックを右上のボタンでコピーし、そのままGitHubの `README.md` に丸ごと上書きしてください。
-
-```markdown
 # The SHISEI Protocol (至誠プロトコル)
 
 "至誠にして動かざる者は、未だ之れ有らざるなり。"
@@ -108,13 +101,6 @@ flowchart TD
     class Tsujigiri,ChaosLayer chaos;
     class RokudoRinne healing;
 
-```
-
----
-
-## Repository Architecture
-
-```text
 aidd-integrity-protocol/
 ├── shinobi/                 # 忍の刃（ミドルウェア・常駐デーモン・カオス・オートヒーリング）
 │   ├── kageboushi_middleware.py
@@ -144,15 +130,5 @@ aidd-integrity-protocol/
 └── examples/                # 侍の論理監査統合デモ
     └── parse_and_guard.py
 
-```
-
----
-
-## Author
-
-**安城 巻那 (Anjo da máquina)**
+安城 巻那 (Anjo da máquina)
 Software Quality Assurance / AI Architecture
-
-```
-
-```
