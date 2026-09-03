@@ -1,26 +1,21 @@
-# The SHISEI Protocol (至誠プロトコル)
-
+The SHISEI Protocol (至誠プロトコル)
 "至誠にして動かざる者は、未だ之れ有らざるなり。"
 
-生成AIエージェントの自律的な思考プロセスと資金（公金・暗号資産）の移動から、一切の「不正・隠蔽・改ざん」を数学적および物理的に封殺するゼロトラスト・QAアーキテクチャ。
+生成AIエージェントの自律的な思考プロセスと資金（公金・暗号資産）の移動から、一切の「不正・隠蔽・改ざん」を数学的および物理的に封殺するゼロトラスト・QAアーキテクチャ。
 
 AIの推論を監査する「侍（論理監査）」と、実世界やシステムの暗部を監査する「忍（ミドルウェア監査）」のデュアルレイヤー構造を持ち、ミリ秒単位でシステムの健全性を監視する。1つの恥（異常）が検知された瞬間、インフラ全体を巻き込んで自決する連座制キルスイッチと、死から数秒で初期状態へと復活するオートヒーリング機構を備える。
 
----
+Core Philosophy
+Zero-Trust by Default: 開発者、AI、インフラストラクチャのいかなる構成要素も信用しない。
 
-## Core Philosophy
+Immutable Integrity: デプロイ後の要件（SLA）や前提ルールの改ざんを暗号ハッシュでロックし、後出しを許さない。
 
-* **Zero-Trust by Default**: 開発者、AI、インフラストラクチャのいかなる構成要素も信用しない。
-* **Immutable Integrity**: デプロイ後の要件（SLA）や前提ルールの改ざんを暗号ハッシュでロックし、後出しを許さない。
-* **Continuous Chaos**: 予定調和のテストを捨て、自律型レッドチームによる未知の攻撃（辻斬り）で防壁を常時鍛錬する。
+Continuous Chaos: 予定調和のテストを捨て、自律型レッドチームによる未知の攻撃（辻斬り）で防壁を常時鍛錬する。
 
----
-
-## Architecture Diagram
-
+Architecture Diagram
 システム稼働中（ランタイム）における全方位監視と、カオスエンジニアリングから自己再生に至る完全なエコシステム。
 
-```mermaid
+コード スニペット
 flowchart TD
     User(["外部からの入力 / API Request"]) --> KageboushiIn
 
@@ -100,7 +95,8 @@ flowchart TD
     class Zanshin success;
     class Tsujigiri,ChaosLayer chaos;
     class RokudoRinne healing;
-
+Repository Architecture
+Plaintext
 aidd-integrity-protocol/
 ├── shinobi/                 # 忍の刃（ミドルウェア・常駐デーモン・カオス・オートヒーリング）
 │   ├── kageboushi_middleware.py
@@ -129,6 +125,6 @@ aidd-integrity-protocol/
 │   └── markdown_parser.py
 └── examples/                # 侍の論理監査統合デモ
     └── parse_and_guard.py
-
+Author
 安城 巻那 (Anjo da máquina)
 Software Quality Assurance / AI Architecture
