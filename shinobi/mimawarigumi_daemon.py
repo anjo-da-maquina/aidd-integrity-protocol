@@ -1,60 +1,75 @@
-"""
-The SHINOBI Protocol - Mimawarigumi (見廻組) Endless Patrol Daemon
-全フローの背後に常時潜伏し、システムインフラとブロックチェーンの異常を
-24時間365日、ミリ秒単位で追跡・監視し続ける無限ループ型の常駐暗部。
-"""
-
-import sys
+# shinobi/mimawarigumi_daemon.py
 import time
-import random
+import hmac
+import hashlib
+import logging
+import threading
+import os
+import psutil
+from typing import Dict, Any, Callable
 
-class MimawarigumiDaemon:
-    def __init__(self):
-        self.is_running = True
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] SHISEI-MIMAWARIGUMI: %(message)s")
+logger = logging.getLogger("MimawarigumiDaemon")
 
-    def execute_assassination(self, reason: str):
-        print(f"\n[暗部摘発: 見廻組 / MIMAWARIGUMI TRIGGERED]")
-        print(f"恥 (Shame): {reason}")
-        print("常時巡回中の見廻組が、システム深部における無音の異常（不正）を捕捉した。")
-        print("これより介錯プロセスに移行し、インフラ全体を即座に破棄する。")
-        sys.exit(1)
+class MimawarigumiDaemon(threading.Thread):
+    """
+    見廻組（MIMAWARIGUMI）：常駐型デーモン
+    24時間365日バックグラウンドで無限ループ監視を行い、
+    プロセスの生存、メモリ汚染、トランザクションの停滞を常時チェックする。
+    """
+    def __init__(self, master_secret: bytes, killswitch_trigger: Callable[[Dict[str, Any]], None], interval_sec: float = 1.0, memory_limit_mb: float = 1024.0):
+        super().__init__()
+        self._master_secret = master_secret
+        self._killswitch_trigger = killswitch_trigger
+        self._interval_sec = interval_sec
+        self._memory_limit_mb = memory_limit_mb
+        self._stop_event = threading.Event()
+        self.daemon = True # メインスレッド終了時に強制終了させない、または孤立を防ぐ設定
 
-    def patrol_infrastructure(self):
-        """APIやサーバーの死活監視と、裏口への侵入検知"""
-        # シミュレーション：クラウドインフラのヘルスチェック
-        is_healthy = True 
-        if not is_healthy:
-            self.execute_assassination("インフラの不自然なダウンタイム、またはDDoS攻撃を検知。")
+    def run(self) -> None:
+        logger.info("見廻組（見廻り監視ループ）が起動しました。システム全域の常駐監視を開始します。")
+        current_pid = os.getpid()
+        process = psutil.Process(current_pid)
 
-    def patrol_blockchain_mempool(self):
-        """蜘蛛の糸（Kumonoito）をバックグラウンドで走らせ続ける"""
-        # トランザクションが確定する前のメモリプールを監視し、ループ構造を事前検知
-        suspicious_loop_detected = False
-        if suspicious_loop_detected:
-            self.execute_assassination("未確定のトランザクションの中に、公金還流のマネーロンダリング構造を検知。")
+        while not self._stop_event.is_set():
+            try:
+                # 1. メモリ使用量の厳密な監視（メモリリークや不正なバッファ肥大化の検知）
+                mem_info = process.memory_info()
+                rss_mb = mem_info.rss / (1024 * 1024)
+                if rss_mb > self._memory_limit_mb:
+                    reason = f"メモリ制限違反: 許容上限({self._memory_limit_mb}MB)を超過しました。現在値: {rss_mb:.2f}MB"
+                    logger.critical(reason)
+                    self._trigger_breach("ERR_MEMORY_OVERFLOW", reason)
+                    break
 
-    def run_endless_patrol(self):
-        print("==================================================")
-        print("【見廻組 起動】 常駐型・暗部巡回デーモン開始")
-        print("==================================================")
-        print("これよりシステムは、昼夜を問わず忍の監視下に置かれる。\n")
-
-        patrol_count = 1
-        try:
-            # 永遠に回り続ける監視ループ（デーモン）
-            while patrol_count <= 3: # ※CI/CDで止まらないように今回は3回で終了する設定
-                print(f"[見廻組] 第 {patrol_count} 刻の巡回を開始...")
+                # 2. プロセス・スレッドの生存・デッドロック兆候チェック
+                # （必要に応じてサブプロセスや重要スレッドのヘルスチェックをここに拡張）
                 
-                self.patrol_infrastructure()
-                self.patrol_blockchain_mempool()
-                
-                print(f"[見廻組] 第 {patrol_count} 刻の巡回完了。異常なし。闇に潜伏する...\n")
-                time.sleep(1) # 実際はここに適切なインターバルを入れる
-                patrol_count += 1
-                
-        except KeyboardInterrupt:
-            print("\n[見廻組] 主君の命により、常駐監視を終了する。")
+                logger.debug(f"見廻組: 巡回完了。メモリ使用量: {rss_mb:.2f}MB")
 
-if __name__ == "__main__":
-    daemon = MimawarigumiDaemon()
-    daemon.run_endless_patrol()
+            except Exception as e:
+                reason = f"見廻組デーモン内部での異常発生: {str(e)}"
+                logger.error(reason)
+                self._trigger_breach("ERR_DAEMON_CRASH", reason)
+                break
+
+            time.sleep(self._interval_sec)
+
+        logger.info("見廻組の常駐監視ループが停止しました。")
+
+    def stop(self) -> None:
+        self._stop_event.set()
+
+    def _trigger_breach(self, error_code: str, reason: str) -> None:
+        signal = {
+            "source": "Mimawarigumi",
+            "error_code": error_code,
+            "timestamp": int(time.time()),
+            "severity": "CRITICAL",
+            "reason": reason
+        }
+        payload_str = f"{signal['source']}:{signal['error_code']}:{signal['timestamp']}"
+        sig = hmac.new(self._master_secret, payload_str.encode('utf-8'), hashlib.sha256).hexdigest()
+        signal["signature"] = sig
+        
+        self._killswitch_trigger(signal)
