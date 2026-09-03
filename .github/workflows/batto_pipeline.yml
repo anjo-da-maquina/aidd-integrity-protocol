@@ -64,6 +64,11 @@ jobs:
           echo "=== 忍びの刃：『蛇』による物理空間の偽装監査を開始 ==="
           python shinobi/hebi_oracle.py
 
+      - name: 5.8 目利き (Mekiki - スマートコントラクト鑑定)
+        run: |
+          echo "=== 忍びの刃：『目利き』によるブロックチェーン武具の鑑定を開始 ==="
+          python shinobi/mekiki_auditor.py
+
       - name: 6. 残心 (Zanshin - State Lock)
         if: success()
         run: |
