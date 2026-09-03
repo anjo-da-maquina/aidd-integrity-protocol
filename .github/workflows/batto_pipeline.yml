@@ -20,16 +20,17 @@ jobs:
           python-version: '3.10'
 
       - name: 3. 忍具の準備 (Install Dependencies)
+        # pyyaml を追加インストール
         run: |
           python -m pip install --upgrade pip
-          pip install networkx
+          pip install networkx pyyaml
 
       - name: 3.2 影討ち (Kageuchi - 使い回しの封殺)
         run: |
           echo "=== 忍びの刃：『影討ち』によるリプレイ攻撃の監査を開始 ==="
           python shinobi/kageuchi_nonce.py
 
-      - name: 3.5 鉄菱 (Tetsubishi - 前提条件の改ざん防止)
+      - name: 3.5 鉄菱 (Tetsubishi - 前提条件と要件定義の改ざん防止)
         run: |
           echo "=== 忍びの刃：『鉄菱』によるルールの不変性チェックを開始 ==="
           python shinobi/tetsubishi_commitment.py
@@ -69,14 +70,22 @@ jobs:
           echo "=== 忍びの刃：『目利き』によるブロックチェーン武具の鑑定を開始 ==="
           python shinobi/mekiki_auditor.py
 
-      - name: 6. 残心 (Zanshin - State Lock)
-        if: success()
+      - name: 6. 残心 (Zanshin - デプロイ許可)
         run: |
-          echo "すべての刃が異常なしと判定。AIの思考と資金の流れに『恥』は存在しない。"
-          echo "プロトコルは静謐を保ち、稼働を継続する。"
+          echo "すべての論理・物理監査を通過。これより本稼働環境へデプロイする。"
 
-      - name: 7. 介錯 (Kaishaku - 連座制キルスイッチ)
+      - name: 7. 御前試合 (Gozen-jiai - 機能要件E2E監査)
+        run: |
+          echo "=== 侍の刃：『御前試合』による機能要件の実演証明を開始 ==="
+          python shinobi/gozen_jiai_e2e.py
+
+      - name: 8. 百人斬り (Hyakuningiri - 非機能要件負荷監査)
+        run: |
+          echo "=== 忍びの刃：『百人斬り』による高負荷耐性の証明を開始 ==="
+          python shinobi/hyakuningiri_load.py
+
+      - name: 9. 介錯 (Kaishaku - 連座制キルスイッチ)
         if: failure()
         run: |
-          echo "=== 致命的な恥（不正）を検知。介錯を実行する ==="
+          echo "=== 致命的な恥（不正・要件未達）を検知。介錯を実行する ==="
           python shinobi/kaishaku_killswitch.py
