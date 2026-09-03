@@ -1,79 +1,90 @@
-"""
-The SHINOBI Protocol - Kageboushi (影法師) Middleware
-すべての処理（関数・API）の背後に常時張り付き、入力と出力を監視する暗部ミドルウェア。
-対象が動く直前と動いた直後に各忍びのプロトコルをバックグラウンドで走らせ、
-1ミリ秒でも不審な挙動（恥）があれば、対象の処理ごと暗殺（強制停止）する。
-"""
+# shinobi/kageboushi_middleware.py
+import time
+import hmac
+import hashlib
+import logging
+from typing import Dict, Any, Callable, Set
 
-import sys
-import functools
-import traceback
-from typing import Callable, Any
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] SHISEI-KAGEBOUSHI: %(message)s")
+logger = logging.getLogger("KageboushiMiddleware")
 
-def execute_assassination(reason: str, exception: Exception = None):
-    """背後からの暗殺を実行（介錯の即時発動）"""
-    print(f"\n[暗部摘発: 影法師 / KAGEBOUSHI TRIGGERED]")
-    print(f"恥 (Shame): {reason}")
-    if exception:
-        print(f"詳細: {str(exception)}")
-    print("対象の背後に張り付いていた影法師が異常を検知した。")
-    print("フローの実行を直ちに遮断し、対象を暗殺（強制終了）する。")
-    
-    # 実際はここで kaishaku_killswitch.py を呼び出しインフラごと凍結する
-    print("\n[介錯発動] システムを完全に沈黙させた。")
-    sys.exit(1)
-
-def shinobi_audit(func: Callable) -> Callable:
+class KageboushiMiddleware:
     """
-    あらゆる関数の頭上に `@shinobi_audit` と書くだけで、
-    その処理の背後に忍びが常時張り付くようになる恐るべき呪印（デコレータ）。
+    影法師（KAGEBOUSHI）：常駐型ミドルウェア
+    すべての入力（Pre-Audit）と出力（Post-Audit）に対し、
+    Nonce検証、タイムウィンドウ制限、ハッシュ照合をミリ秒単位で強制する。
     """
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        print(f"\n[影法師] 標的関数 '{func.__name__}' の稼働を検知。背後からの監視を開始。")
+    def __init__(self, master_secret: bytes, killswitch_trigger: Callable[[Dict[str, Any]], None], max_drift_ms: int = 200):
+        self._master_secret = master_secret
+        self._killswitch_trigger = killswitch_trigger
+        self._max_drift_ms = max_drift_ms
+        self._used_nonces: Set[str] = set()
 
-        # ----------------------------------------------------
-        # 処理【実行前】の監視（Pre-execution Audit）
-        # ----------------------------------------------------
-        try:
-            print(f"  ├─ 影討ち(Kageuchi): 渡された引数に過去の使い回し(リプレイ)がないか照合中...")
-            print(f"  ├─ 鉄菱(Tetsubishi): 前提ルールが改ざんされていないかハッシュを計算中...")
-            # ※ここで各プロトコルの関数を呼び出す
-        except Exception as e:
-            execute_assassination("実行前の事前監査にて不正を検知。", e)
+    def pre_audit(self, payload: Dict[str, Any], nonce: str, timestamp_ms: int, signature: str) -> bool:
+        """
+        実行前監査（Pre-Audit）: 
+        リプレイ攻撃、時間同期のズレ、および入力ペイロードの改ざんを検知する。
+        """
+        current_time_ms = int(time.time() * 1000)
+        
+        # 1. タイムウィンドウ検証（ミリ秒単位）
+        if abs(current_time_ms - timestamp_ms) > self._max_drift_ms:
+            reason = f"タイムウィンドウ違反: 許容範囲({self._max_drift_ms}ms)を超えたリクエストです。差分: {abs(current_time_ms - timestamp_ms)}ms"
+            logger.error(reason)
+            self._trigger_breach("ERR_TIME_WINDOW_DRIFT", reason)
+            return False
 
-        # ----------------------------------------------------
-        # 本処理の実行（標的を泳がせる）
-        # ----------------------------------------------------
-        print(f"  ├─ [対象稼働] '{func.__name__}' を実行中...")
-        try:
-            result = func(*args, **kwargs)
-        except Exception as e:
-            execute_assassination("本処理の実行中に致命的なエラーまたは不正なクラッシュを検知。", e)
+        # 2. Nonce重複検証（リプレイ攻撃対策）
+        if nonce in self._used_nonces:
+            reason = f"リプレイ攻撃検知: 既に消費されたNonce '{nonce}' が再利用されました。"
+            logger.error(reason)
+            self._trigger_breach("ERR_NONCE_REPLAY", reason)
+            return False
+        
+        # Nonceの消費登録
+        self._used_nonces.add(nonce)
 
-        # ----------------------------------------------------
-        # 処理【実行後】の監視（Post-execution Audit）
-        # ----------------------------------------------------
-        try:
-            print(f"  ├─ 水鏡(Mizukagami): 出力結果({result})の意味論的ドリフトをベクトル解析中...")
-            print(f"  ├─ 蛍火(Hotarubi): 出力結果に機密情報（カナリア）が漏洩していないか走査中...")
-            print(f"  ├─ 蛇(Hebi): 処理対象のトランザクション先にダミー法人が含まれていないか追跡中...")
-        except Exception as e:
-            execute_assassination("実行後の事後監査にて、巧妙な情報の持ち出しや意味の改ざんを検知。", e)
+        # 3. 署名（改ざん）検証
+        raw_data = f"{nonce}:{timestamp_ms}:{str(payload)}"
+        expected_sig = hmac.new(self._master_secret, raw_data.encode('utf-8'), hashlib.sha256).hexdigest()
 
-        print(f"[影法師] 標的 '{func.__name__}' に不正なし。闇へ帰還する。")
-        return result
-    return wrapper
+        if not hmac.compare_digest(expected_sig, signature):
+            reason = "ペイロード改ざん検知: 入力データの署名が一致しません。"
+            logger.error(reason)
+            self._trigger_breach("ERR_PAYLOAD_TAMPERING", reason)
+            return False
 
-# --- 実戦シミュレーション ---
-if __name__ == "__main__":
+        logger.info("Pre-Audit 正常通過: 整合性、時間、Nonceの検証に成功しました。")
+        return True
 
-    # 主君（あなた）が構築したメインのAI機能や送金機能
-    # この関数の上に @shinobi_audit をつけるだけで、影法師が永遠に憑依する
-    @shinobi_audit
-    def execute_ai_fund_distribution(target_npo: str, amount: int):
-        # 実際の処理（AIによる分配決定など）
-        return f"SUCCESS: {target_npo} に {amount} を分配完了"
+    def post_audit(self, output_data: Dict[str, Any], expected_schema_hash: str) -> bool:
+        """
+        実行後監査（Post-Audit）:
+        AIの出力結果が期待されるスキーマおよび論理制約（蛍火・水鏡・蛇の統合）に適合しているかを検証する。
+        """
+        output_str = str(output_data)
+        actual_hash = hashlib.sha256(output_str.encode('utf-8')).hexdigest()
 
-    # システム稼働（背後で影法師が動く）
-    execute_ai_fund_distribution("NPO法人 真正なる救済", 5000)
+        if not hmac.compare_digest(actual_hash, expected_schema_hash):
+            reason = "出力不整合検知: AIの出力結果が事前定義された不変要件ハッシュと一致しません。"
+            logger.error(reason)
+            self._trigger_breach("ERR_POST_AUDIT_MISMATCH", reason)
+            return False
+
+        logger.info("Post-Audit 正常通過: 出力の整合性が確認されました。")
+        return True
+
+    def _trigger_breach(self, error_code: str, reason: str) -> None:
+        signal = {
+            "source": "Kageboushi",
+            "error_code": error_code,
+            "timestamp": int(time.time()),
+            "severity": "CRITICAL",
+            "reason": reason
+        }
+        # 署名を付与してキルスイッチへ転送
+        payload_str = f"{signal['source']}:{signal['error_code']}:{signal['timestamp']}"
+        sig = hmac.new(self._master_secret, payload_str.encode('utf-8'), hashlib.sha256).hexdigest()
+        signal["signature"] = sig
+        
+        self._killswitch_trigger(signal)
