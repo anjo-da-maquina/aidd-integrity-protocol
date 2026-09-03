@@ -72,11 +72,11 @@ if __name__ == "__main__":
     }
     oracle.verify_physical_entity(valid_entity)
 
-    # 異常な法人のテスト（ここで腹切りが発動し、プログラムが止まる）
-    dummy_entity = {
-        "name": "一般社団法人 幻影福祉機構",
-        "corporate_id": "9999999999999",
-        "address_hash": "v_office_tokyo_01", # ブラックリスト住所
-        "is_newly_established": True
-    }
-    oracle.verify_physical_entity(dummy_entity)
+    # 異常な法人のテスト（※試し斬りが完了し、介錯の連動も確認できたため封印）
+    # dummy_entity = {
+    #     "name": "一般社団法人 幻影福祉機構",
+    #     "corporate_id": "9999999999999",
+    #     "address_hash": "v_office_tokyo_01",
+    #     "is_newly_established": True
+    # }
+    # oracle.verify_physical_entity(dummy_entity)
