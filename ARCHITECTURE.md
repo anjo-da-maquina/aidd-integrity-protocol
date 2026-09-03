@@ -53,4 +53,18 @@ graph TD
     Hebi -. 恥を検知 .-> Kaishaku
     Mekiki -. 恥を検知 .-> Kaishaku
     
-    Kaishaku{介錯: 連座制キルスイッチ\nIAM
+    Kaishaku{介錯: 連座制キルスイッチ\nIAM/VPC/SCを即時凍結し自決}
+
+    %% 残心通過後のブロックチェーン領域
+    Zanshin ==> |デプロイ許可| Blockchain[(Ethereum / Blockchain)]
+    Blockchain --> Kagenui[影縫い: ZKP資金分配\n中抜きゼロの数学的証明]
+    Blockchain --> Suigetsu[水月: 囮資金トラップ\n横領者のウォレットに永遠の恥を刻む]
+
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef killswitch fill:#8b0000,stroke:#ff0000,stroke-width:2px,color:#fff;
+    classDef blockchain fill:#2c3e50,stroke:#34495e,stroke-width:2px,color:#fff;
+    classDef success fill:#27ae60,stroke:#2ecc71,stroke-width:2px,color:#fff;
+    
+    class Kaishaku killswitch;
+    class Blockchain,Kagenui,Suigetsu blockchain;
+    class Zanshin success;
