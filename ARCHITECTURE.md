@@ -1,79 +1,91 @@
 # The SHISEI Protocol (至誠プロトコル)
 
-本プロトコルは、AIの不誠実な隠蔽、事後的なルールの改ざん、および公金・募金の不正利用（マネーロンダリングや中抜き）を、数学的・暗号学的に完全に封殺する「ゼロトラスト・アーキテクチャ」である。
+本プロトコルは、AIの不誠実な隠蔽、事後的なルールの改ざん、および公金・募金の不正利用を数学的・暗号学的に完全に封殺する「ゼロトラスト・アーキテクチャ」である。
 
-「武士道（ストイシズム）」をシステム設計の根幹に据え、1つの不正（恥）が発見された瞬間に全システムを巻き込んで自決（強制停止）する**連座制キルスイッチ**を搭載している。
+本システムは単なる「デプロイ前の検査パイプライン」ではない。システムが稼働している間中、すべての関数とAPIの背後に暗部（忍び）が常時憑依し、1ミリ秒でも不正な挙動があればその場でシステムを暗殺（強制停止）する**「常駐型ミドルウェア（影法師）」**として機能する。
 
 ---
 
-## デュアルレイヤー監査アーキテクチャ（表と裏の陣）
+## 常時監視・全方位憑依アーキテクチャ（影法師ミドルウェア）
 
-本システムは、白日の下で堂々と論理と規律を問う「表の侍」と、暗闇に潜み実体や裏の帳簿を監査する「裏の忍」の、2つのレイヤーが重なり合って動作する。
+以下の図は、システム稼働中（ランタイム）において、主君（アプリケーション）の周囲を無数の忍びがドーム状に取り囲み、すべての入出力をリアルタイムで監視・追跡している状態を視覚化したものである。
 
 ```mermaid
 graph TD
-    Start([システム起動 / コードPush])
+    %% クライアントからのリクエスト
+    User([外部からの入力 / API Request]) --> KageboushiIn
 
     %% --------------------------------
-    %% 裏の陣：忍（SHINOBI LAYER）
+    %% 影法師（ミドルウェア層） - 侵入時の監視
     %% --------------------------------
-    subgraph Shadow ["【 裏の陣：忍 (SHINOBI) 】- 暗部と実態の始末屋"]
-        Kageuchi[影討ち: リプレイ攻撃検知\nNonceの使い回しを斬る]
-        Tetsubishi[鉄菱: ルール改ざん検知\n前提条件のハッシュ不一致を斬る]
-        Hotarubi[蛍火: 情報漏洩検知\nカナリアトークン漏洩を斬る]
-        Mizukagami[水鏡: ハルシネーション検知\n意味論的な言葉遊びを斬る]
-        Kumonoito[蜘蛛の糸: マネロン還流検知\nグラフ上の不自然な資金ループを斬る]
-        Hebi[蛇: 物理空間監査\nダミー法人・空箱アドレスを斬る]
-        Mekiki[目利き: SC鑑定\n腹切りロジックの削除を斬る]
+    subgraph KageboushiLayer ["【 影法師 (KAGEBOUSHI) 】- 常駐型ミドルウェア"]
+        direction TB
+        KageboushiIn{実行前 監査\n(Pre-Audit)}
+        Kageuchi[影討ち: 非同期Nonce検証]
+        Tetsubishi[鉄菱: リアルタイムハッシュ照合]
+        
+        KageboushiIn --> Kageuchi
+        KageboushiIn --> Tetsubishi
+        
+        KageboushiOut{実行後 監査\n(Post-Audit)}
+        Hotarubi[蛍火: 出力ログの漏洩走査]
+        Mizukagami[水鏡: 出力の意味論ベクトル解析]
+        Hebi[蛇: バックグラウンド実体照会]
+        
+        KageboushiOut --> Hotarubi
+        KageboushiOut --> Mizukagami
+        KageboushiOut --> Hebi
     end
 
     %% --------------------------------
-    %% 表の陣：侍（SAMURAI LAYER）
+    %% メインロジック層 - 侍の陣
     %% --------------------------------
-    subgraph Surface ["【 表の陣：侍 (SAMURAI) 】- 論理と規律の裁定者"]
+    subgraph CoreLogic ["【 コアロジック (SAMURAI CORE) 】"]
         Samurai[侍: 至誠プロトコル\nAIによるMECE隠蔽を直積演算で斬る]
+        Application[メイン・アプリケーション\n(AI思考 / 分配決定)]
     end
 
-    %% 実行順序のフロー（表と裏を行き来する）
-    Start --> Kageuchi
-    Kageuchi --> Tetsubishi
-    Tetsubishi --> Samurai
-    Samurai --> Hotarubi
-    Hotarubi --> Mizukagami
-    Mizukagami --> Kumonoito
-    Kumonoito --> Hebi
-    Hebi --> Mekiki
-    Mekiki --> Zanshin([残心: 監査完了 / 異常なし])
-    
-    %% キルスイッチへの連動（いずれかのステップで失敗した場合）
-    Kaishaku{介錯: 連座制キルスイッチ\nIAM/VPC/SCを即時凍結し自決}
-    
-    Kageuchi -. 恥 .-> Kaishaku
-    Tetsubishi -. 恥 .-> Kaishaku
-    Samurai -. 恥 .-> Kaishaku
-    Hotarubi -. 恥 .-> Kaishaku
-    Mizukagami -. 恥 .-> Kaishaku
-    Kumonoito -. 恥 .-> Kaishaku
-    Hebi -. 恥 .-> Kaishaku
-    Mekiki -. 恥 .-> Kaishaku
+    %% --------------------------------
+    %% 見廻組（デーモン層） - 24時間独立監視
+    %% --------------------------------
+    subgraph DaemonLayer ["【 見廻組 (MIMAWARIGUMI) 】- 常駐デーモン"]
+        Mimawarigumi((24時間365日\n無限ループ監視))
+        Kumonoito[蜘蛛の糸: メモリプール\n常時トランザクション追跡]
+        Mimawarigumi --> Kumonoito
+    end
 
-    %% 残心通過後のブロックチェーン領域
-    Zanshin ==> |デプロイ許可| Blockchain[(Ethereum / Blockchain)]
-    Blockchain --> Kagenui[影縫い: ZKP資金分配\n中抜きゼロの数学的証明]
-    Blockchain --> Suigetsu[水月: 囮資金トラップ\n横領者のウォレットに永遠の恥を刻む]
+    %% フローの接続
+    Tetsubishi --> Application
+    Kageuchi --> Application
+    Application <--> Samurai
+    Application --> KageboushiOut
+
+    KageboushiOut --> Zanshin([残心: 処理通過 / ブロックチェーンへ送信])
+
+    %% キルスイッチへの連動（ミリ秒単位の暗殺）
+    Kaishaku{介錯: 連座制キルスイッチ\nシステム即時凍結・暗殺}
+    
+    Kageuchi -. 異常検知 .-> Kaishaku
+    Tetsubishi -. 異常検知 .-> Kaishaku
+    Samurai -. 異常検知 .-> Kaishaku
+    Hotarubi -. 異常検知 .-> Kaishaku
+    Mizukagami -. 異常検知 .-> Kaishaku
+    Kumonoito -. 異常検知 .-> Kaishaku
+    Hebi -. 異常検知 .-> Kaishaku
+    Mimawarigumi -. 死活異常 .-> Kaishaku
 
     %% --------------------------------
     %% カラーリングとスタイル定義
     %% --------------------------------
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
-    classDef samurai fill:#fdfefe,stroke:#2c3e50,stroke-width:2px,color:#2c3e50;
-    classDef shinobi fill:#17202a,stroke:#566573,stroke-width:2px,color:#ecf0f1;
+    classDef middleware fill:#17202a,stroke:#566573,stroke-width:2px,color:#ecf0f1;
+    classDef core fill:#fdfefe,stroke:#2c3e50,stroke-width:2px,color:#2c3e50;
+    classDef daemon fill:#0b5345,stroke:#148f77,stroke-width:2px,color:#fff;
     classDef killswitch fill:#641e16,stroke:#e74c3c,stroke-width:2px,color:#fff;
-    classDef blockchain fill:#1a5276,stroke:#2980b9,stroke-width:2px,color:#fff;
     classDef success fill:#145a32,stroke:#2ecc71,stroke-width:2px,color:#fff;
     
-    class Samurai samurai;
-    class Kageuchi,Tetsubishi,Hotarubi,Mizukagami,Kumonoito,Hebi,Mekiki shinobi;
+    class KageboushiLayer,Kageuchi,Tetsubishi,Hotarubi,Mizukagami,Hebi middleware;
+    class CoreLogic,Samurai,Application core;
+    class DaemonLayer,Mimawarigumi,Kumonoito daemon;
     class Kaishaku killswitch;
-    class Blockchain,Kagenui,Suigetsu blockchain;
     class Zanshin success;
