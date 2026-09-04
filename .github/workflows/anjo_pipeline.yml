@@ -1,0 +1,39 @@
+name: Anjo da máquina Protocol - Angels
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  angelic-audit:
+    name: 聖なる統合監視 (Angelic Zero-Trust Audit)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. 聖域の準備 (Checkout Repository)
+        uses: actions/checkout@v3
+
+      - name: 2. 祭壇の準備 (Set up Python)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 3. 供物の準備 (Install Dependencies)
+        run: |
+          python -m pip install --upgrade pip
+          pip install networkx pyyaml
+
+      - name: 3.2 ウリエルの炎 (Uriel - リプレイ攻撃監査)
+        run: |
+          echo "=== 座天使の陣：『ウリエルの炎』による刻印の検証を開始 ==="
+          python angels/uriel_nonce.py
+
+      # ※ここから下の天使たちは、次のステップで順次コードを移行します。
+      # 一時的に旧スクリプト（shinobi）を呼ぶか、一旦コメントアウトして進めます。
+      
+      - name: 9. 最後の審判 (Dies Irae - 連座制キルスイッチ)
+        if: failure()
+        run: |
+          echo "=== 致命的な恥（不正）を検知。最後の審判を実行する ==="
+          python angels/dies_irae.py
