@@ -81,6 +81,12 @@ jobs:
           echo "=== 力天使の陣：『力天使の試練』による高負荷耐性の証明を開始 ==="
           python angels/virtues_load.py
 
+      - name: 14.5. 大天使の印璽 (Sanctuary Manifest - 品質担保一覧出力)
+        if: success()
+        run: |
+          echo "=== 全試練の突破を確認。『絶対品質担保証明書』を発行する ==="
+          python angels/sanctuary_manifest.py
+
       - name: 15. 最後の審判 (Dies Irae - 連座制キルスイッチ)
         if: failure()
         run: |
