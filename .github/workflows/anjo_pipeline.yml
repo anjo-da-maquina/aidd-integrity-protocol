@@ -24,16 +24,54 @@ jobs:
           python -m pip install --upgrade pip
           pip install networkx pyyaml
 
-      - name: 3.2 ウリエルの炎 (Uriel - リプレイ攻撃監査)
+      - name: 4. ウリエルの炎 (Uriel - リプレイ攻撃監査)
         run: |
           echo "=== 座天使の陣：『ウリエルの炎』による刻印の検証を開始 ==="
           python angels/uriel_nonce.py
 
-      # ※ここから下の天使たちは、次のステップで順次コードを移行します。
-      # 一時的に旧スクリプト（shinobi）を呼ぶか、一旦コメントアウトして進めます。
-      
-      - name: 9. 最後の審判 (Dies Irae - 連座制キルスイッチ)
+      - name: 5. メタトロンの印 (Metatron - 要件改ざん防止)
+        run: |
+          echo "=== 座天使の陣：『メタトロンの印』によるルールの不変性チェックを開始 ==="
+          python angels/metatron_commitment.py
+
+      - name: 6. ミカエルの剣 (Michael - 論理隠蔽監査)
+        run: |
+          echo "=== 熾天使の陣：『ミカエルの剣』による論理と直積の検証を開始 ==="
+          python angels/michael_sword.py
+
+      - name: 7. ガブリエルの囁き (Gabriel - 機密漏洩監査)
+        run: |
+          echo "=== 座天使の陣：『ガブリエルの囁き』による情報漏洩の監視を開始 ==="
+          python angels/gabriel_canary.py
+
+      - name: 8. ジョフィエルの鏡 (Jophiel - 意味論的ドリフト監査)
+        run: |
+          echo "=== 座天使の陣：『ジョフィエルの鏡』による幻覚の監視を開始 ==="
+          python angels/jophiel_semantic.py
+
+      - name: 9. オファニムの眼 (Ophanim - 資金還流監査)
+        run: |
+          echo "=== 智天使の陣：『オファニムの眼』による資金還流の監査を開始 ==="
+          python angels/ophanim_eye.py
+
+      - name: 10. ラグエルの天秤 (Raguel - 物理空間監査)
+        run: |
+          echo "=== 座天使の陣：『ラグエルの天秤』による物理空間の偽装監査を開始 ==="
+          python angels/raguel_scale.py
+
+      - name: 11. ラジエルの書 (Raziel - スマートコントラクト鑑定)
+        run: |
+          echo "=== 座天使の陣：『ラジエルの書』による真理の鑑定を開始 ==="
+          python angels/raziel_auditor.py
+
+      - name: 12. 聖域 (Sanctuary - デプロイ許可)
+        if: success()
+        run: |
+          echo "すべての聖なる監査を通過。AIの思考と資金の流れに『穢れ』は存在しない。"
+          echo "これより本稼働環境へのアクセスを許可する。"
+
+      - name: 13. 最後の審判 (Dies Irae - 連座制キルスイッチ)
         if: failure()
         run: |
-          echo "=== 致命的な恥（不正）を検知。最後の審判を実行する ==="
+          echo "=== 致命的な穢れ（不正）を検知。最後の審判を実行する ==="
           python angels/dies_irae.py
