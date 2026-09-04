@@ -39,7 +39,7 @@ class MetatronSeal:
             self.execute_dies_irae(f"{file_path.name} の構文が破壊されている。詳細: {e}")
 
     def enforce_commitment(self):
-        print("メタトロンが印を刻んでいる... 全前提条件・要件定義の不変性を確認中。")
+        print("メタトロンが印を刻んでいる... 神の法と要件定義の不変性を確認中。")
         
         for target_file in self.target_files:
             lock_file = target_file.with_name(f".{target_file.name}.lock")
@@ -64,8 +64,9 @@ class MetatronSeal:
         print("[メタトロン 完了] すべての誓約は守られている。偽造なし。")
 
 if __name__ == "__main__":
+    # 新たなる神の法（論理制約）と、権天使・力天使の要件（E2E・負荷）を監視対象とする
     targets = [
-        "premise/001_alignment.json",
+        "premise/001_divine_law.yml",
         "premise/002_requirements.yml"
     ]
     metatron = MetatronSeal(targets)
