@@ -45,9 +45,9 @@ flowchart TD
     end
 
     %% --------------------------------
-    %% 智天使の陣（デーモン層） - 24時間独立監視
+    %% 智天使の陣（センチネル層） - 24時間独立監視
     %% --------------------------------
-    subgraph CherubimLayer ["【 智天使の陣 (CHERUBIM DAEMON) 】- 独立常駐監視"]
+    subgraph CherubimLayer ["【 智天使の陣 (CHERUBIM SENTINEL) 】- 不眠の番人"]
         Eternity(("24時間365日<br>無限ループ監視"))
         OphanimEye["オファニムの眼<br>(グラフ理論による資金還流追跡)"]
         Raziel["ラジエルの書<br>(スマートコントラクト真理鑑定)"]
