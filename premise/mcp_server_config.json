@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "MetatronRevelation": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcp",
+        "run",
+        "angels/metatron_revelation_mcp.py"
+      ],
+      "env": {
+        "PYTHONUTF8": "1"
+      }
+    }
+  }
+}
