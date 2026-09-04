@@ -104,3 +104,9 @@ jobs:
         run: |
           echo "=== 致命的な穢れ（不正・要件未達・視覚的隠蔽）を検知。最後の審判を実行する ==="
           python angels/dies_irae.py
+
+      - name: 16. 静寂の玉座 (Throne of Ataraxia - 完全初期化)
+        if: always()
+        run: |
+          echo "=== 処理完了。成功・失敗に関わらず、システムはすべての状態を破棄して無に還る ==="
+          python angels/ataraxia_throne.py
