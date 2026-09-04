@@ -45,72 +45,84 @@ jobs:
         run: |
           python angels/michael_sword.py
 
-      - name: 7. ガブリエルの囁き (Gabriel - 機密漏洩監査)
-        run: |
-          python angels/gabriel_canary.py
-
-      - name: 8. ジョフィエルの鏡 (Jophiel - 意味論的ドリフト監査)
-        run: |
-          python angels/jophiel_semantic.py
-
-      - name: 9. オファニムの眼 (Ophanim - 資金還流監査)
+      - name: 7. オファニムの眼 (Ophanim - 資金還流監査)
         run: |
           python angels/ophanim_eye.py
 
-      - name: 10. ラグエルの天秤 (Raguel - 物理空間監査)
+      - name: 8. ザドキエルの天球儀 (Zadkiel - 状態遷移監査)
+        run: |
+          python angels/zadkiel_astrolabe.py
+
+      - name: 9. カマエルの盾 (Camael - ペイロード防御監査)
+        run: |
+          python angels/camael_shield.py
+
+      - name: 10. ジョフィエルの鏡 (Jophiel - 意味論的ドリフト監査)
+        run: |
+          python angels/jophiel_semantic.py
+
+      - name: 11. ガブリエルの囁き (Gabriel - 機密漏洩監査)
+        run: |
+          python angels/gabriel_canary.py
+
+      - name: 12. ラグエルの天秤 (Raguel - 物理空間監査)
         run: |
           python angels/raguel_scale.py
 
-      - name: 11. ラジエルの書 (Raziel - スマートコントラクト鑑定)
+      - name: 13. ラジエルの書 (Raziel - スマートコントラクト鑑定)
         run: |
           python angels/raziel_auditor.py
 
-      - name: 12. 聖域 (Sanctuary - デプロイ許可)
+      - name: 14. サリエルの裁定 (Sariel - 外部ツール堕天監査)
+        run: |
+          python angels/sariel_fallen_auditor.py
+
+      - name: 15. 聖域 (Sanctuary - デプロイ許可)
         if: success()
         run: |
-          echo "すべての聖なる監査を通過。これより本稼働環境へのアクセスを許可する。"
+          echo "すべての静的監査を通過しました。"
 
-      - name: 13. 権天使の試練 (Principalities - 機能要件E2E監査)
+      - name: 16. 権天使の試練 (Principalities - 機能要件E2E監査)
         if: success()
         run: |
           python angels/principalities_e2e.py
 
-      - name: 13.5. 座天使の千眼 (Thousand Eyes - UI視覚監査)
+      - name: 17. 座天使の千眼 (Thousand Eyes - UI視覚監査)
         if: success()
         run: |
           python angels/ophanim_thousand_eyes.py
 
-      - name: 13.8. 外部QAツールの実行 (External QA Adapter)
+      - name: 18. 外部QAツールの実行 (External QA Adapter)
         if: success()
         run: |
           python adapters/external_qa_wrapper.py
 
-      - name: 13.9. サリエルの裁定 (Sariel - 外部ツール堕天監査)
-        if: success()
-        run: |
-          python angels/sariel_fallen_auditor.py
-
-      - name: 14. 力天使の試練 (Virtues - 非機能要件負荷監査)
+      - name: 19. 力天使の試練 (Virtues - 非機能要件負荷監査)
         if: success()
         run: |
           python angels/virtues_load.py
 
-      - name: 14.5. 大天使の印璽 (Sanctuary Manifest - 品質担保一覧出力)
+      - name: 20. サンダルフォンの響 (Sandalphon - 監査証跡監査)
+        if: success()
+        run: |
+          python angels/sandalphon_echo.py
+
+      - name: 21. 大天使の印璽 (Sanctuary Manifest - 品質担保一覧出力)
         if: success()
         run: |
           python angels/sanctuary_manifest.py
 
-      - name: 14.8. 汎用レポート出力 (JUnit XML Exporter)
+      - name: 22. 汎用レポート出力 (JUnit XML Exporter)
         if: success()
         run: |
           python adapters/junit_xml_exporter.py
 
-      - name: 15. 最後の審判 (Dies Irae - 連座制キルスイッチ)
+      - name: 23. 最後の審判 (Dies Irae - 連座制キルスイッチ)
         if: failure()
         run: |
           python angels/dies_irae.py
 
-      - name: 16. 静寂の玉座 (Throne of Ataraxia - 完全初期化)
+      - name: 24. 静寂の玉座 (Throne of Ataraxia - 完全初期化)
         if: always()
         run: |
           python angels/ataraxia_throne.py
