@@ -1,111 +1,92 @@
-# The SHISEI Protocol (至誠プロトコル)
+# The "Anjo da máquina" Protocol
+**— Algorithmic Constitution for AI-Driven Governance —**
 
-本プロトコルは、AIの不誠実な隠蔽、事後的なルールの改ざん、および公金・募金の不正利用を数学的・暗号学的に完全に封殺する「ゼロトラスト・アーキテクチャ」である。
-
-本システムは単なる「デプロイ前の検査パイプライン」ではない。システムが稼働している間中、すべての関数とAPIの背後に暗部（忍び）が常時憑依し、1ミリ秒でも不正な挙動があればその場でシステムを暗殺（強制停止）する。さらに、意図的なカオス攻撃（辻斬り）による自己鍛錬と、死からの自動再生（六道輪廻）を備えた自律防衛機構である。
+本システムは、生成AIを行政や公共システムに導入する際、その判断の暴走や外部からの不正操作を数学的・暗号学的に完全に封殺する「ゼロトラスト・アーキテクチャ」である。
+すべてのAIロジックの背後に天使（監視ミドルウェア）が常時憑依し、1ミリ秒でも不正な挙動があれば、その場でインフラ全体を塩の柱に変える（強制停止）**「最後の審判（Dies Irae）」**を搭載している。
 
 ---
 
-## 究極の常時監視・自己再生アーキテクチャ
+## 聖なる監視網・全方位憑依アーキテクチャ
 
-以下の図は、システム稼働中（ランタイム）における全方位の監視と、レッドチーム攻撃からオートヒーリングに至るまでの完全なエコシステムを視覚化したものである。
+以下の図は、AI（メインロジック）の周囲を天使たちがドーム状に取り囲み、すべての入出力をリアルタイムで監視・追跡している状態を視覚化したものである。
 
 ```mermaid
 flowchart TD
-    User(["外部からの入力 / API Request"]) --> KageboushiIn
+    User(["市民・外部からの入力 / API Request"]) --> KageboushiIn
 
     %% --------------------------------
-    %% カオスエンジニアリング層（攻撃側）
+    %% 座天使の陣（ミドルウェア層） - 侵入時の監視
     %% --------------------------------
-    subgraph ChaosLayer ["【 辻斬り (TSUJIGIRI) 】- 自律型レッドチーム"]
-        Tsujigiri["ランダムなタイミングで<br>プロンプトインジェクション等の毒を生成・投下"]
-    end
-    Tsujigiri -. 意図的な攻撃を仕掛ける .-> KageboushiIn
-
-    %% --------------------------------
-    %% 影法師（ミドルウェア層） - 侵入時の監視
-    %% --------------------------------
-    subgraph KageboushiLayer ["【 影法師 (KAGEBOUSHI) 】- 常駐型ミドルウェア"]
+    subgraph OphanimLayer ["【 座天使の陣 (OPHANIM LAYER) 】- 常駐型・実態監視ミドルウェア"]
         direction TB
         KageboushiIn{"実行前 監査<br>(Pre-Audit)"}
-        Kageuchi["影討ち: 非同期Nonce検証"]
-        Tetsubishi["鉄菱: 前提・要件のハッシュ照合"]
+        Uriel["ウリエルの炎<br>(リプレイ攻撃/Nonce検証)"]
+        Metatron["メタトロンの印<br>(要件改ざん/ハッシュ照合)"]
         
-        KageboushiIn --> Kageuchi
-        KageboushiIn --> Tetsubishi
+        KageboushiIn --> Uriel
+        KageboushiIn --> Metatron
         
         KageboushiOut{"実行後 監査<br>(Post-Audit)"}
-        Hotarubi["蛍火: 出力ログの漏洩走査"]
-        Mizukagami["水鏡: 出力の意味論ベクトル解析"]
-        Hebi["蛇: バックグラウンド実体照会"]
+        Gabriel["ガブリエルの囁き<br>(出力ログ/情報漏洩走査)"]
+        Jophiel["ジョフィエルの鏡<br>(意味論ベクトル/幻覚解析)"]
+        Raguel["ラグエルの天秤<br>(物理空間/ペーパーカンパニー照会)"]
         
-        KageboushiOut --> Hotarubi
-        KageboushiOut --> Mizukagami
-        KageboushiOut --> Hebi
+        KageboushiOut --> Gabriel
+        KageboushiOut --> Jophiel
+        KageboushiOut --> Raguel
     end
 
     %% --------------------------------
-    %% メインロジック層 - 侍の陣
+    %% 熾天使の陣（コアロジック層） - 光と論理
     %% --------------------------------
-    subgraph CoreLogic ["【 コアロジック (SAMURAI CORE) 】"]
-        Samurai["侍: 至誠プロトコル<br>AIによるMECE隠蔽を直積演算で斬る"]
-        GozenJiai["御前試合: E2E自動監査"]
-        Hyakuningiri["百人斬り: 非機能要件(負荷)監査"]
-        Application["メイン・アプリケーション<br>(AI思考 / 分配決定)"]
-        
-        Samurai ~~~ GozenJiai ~~~ Hyakuningiri
+    subgraph SeraphimLayer ["【 熾天使の陣 (SERAPHIM CORE) 】- 論理と規律の裁定者"]
+        Michael["ミカエルの剣<br>(直積演算による論理隠蔽の切断)"]
+        Application["行政AIコア<br>(思考プロセス / 分配決定)"]
     end
 
     %% --------------------------------
-    %% 見廻組（デーモン層） - 24時間独立監視
+    %% 智天使の陣（デーモン層） - 24時間独立監視
     %% --------------------------------
-    subgraph DaemonLayer ["【 見廻組 (MIMAWARIGUMI) 】- 常駐デーモン"]
-        Mimawarigumi(("24時間365日<br>無限ループ監視"))
-        Kumonoito["蜘蛛の糸: メモリプール<br>常時トランザクション追跡"]
-        Mimawarigumi --> Kumonoito
+    subgraph CherubimLayer ["【 智天使の陣 (CHERUBIM DAEMON) 】- 独立常駐監視"]
+        Eternity(("24時間365日<br>無限ループ監視"))
+        OphanimEye["オファニムの眼<br>(グラフ理論による資金還流追跡)"]
+        Raziel["ラジエルの書<br>(スマートコントラクト真理鑑定)"]
+        Eternity --> OphanimEye
+        Eternity --> Raziel
     end
 
     %% フローの接続
-    Tetsubishi --> Application
-    Kageuchi --> Application
-    Application --- Samurai
+    Metatron --> Application
+    Uriel --> Application
+    Application --- Michael
     Application --> KageboushiOut
 
-    KageboushiOut --> Zanshin(["残心: 処理通過 / ブロックチェーンへ送信"])
+    KageboushiOut --> Sanctuary(["聖域 (Sanctuary): 処理通過 / ブロックチェーンへ送信"])
 
-    %% キルスイッチと再生への連動
-    Kaishaku{"介錯: 連座制キルスイッチ<br>システム即時凍結・暗殺"}
-    RokudoRinne(("六道輪廻<br>オートヒーリング<br>クリーン状態からの再構築"))
+    %% 最後の審判（キルスイッチへの連動）
+    DiesIrae{"最後の審判 (Dies Irae)<br>インフラ即時凍結・完全遮断"}
     
-    Kageuchi -. 異常検知 .-> Kaishaku
-    Tetsubishi -. 異常検知 .-> Kaishaku
-    Samurai -. 異常検知 .-> Kaishaku
-    Hotarubi -. 異常検知 .-> Kaishaku
-    Mizukagami -. 異常検知 .-> Kaishaku
-    Kumonoito -. 異常検知 .-> Kaishaku
-    Hebi -. 異常検知 .-> Kaishaku
-    Mimawarigumi -. 死活異常 .-> Kaishaku
-    
-    Kaishaku ==> |汚染の完全破棄と死| RokudoRinne
-    RokudoRinne ==> |無傷のクローンとして復活| KageboushiIn
+    Uriel -. 異常検知 .-> DiesIrae
+    Metatron -. 異常検知 .-> DiesIrae
+    Michael -. 異常検知 .-> DiesIrae
+    Gabriel -. 異常検知 .-> DiesIrae
+    Jophiel -. 異常検知 .-> DiesIrae
+    OphanimEye -. 異常検知 .-> DiesIrae
+    Raguel -. 異常検知 .-> DiesIrae
+    Raziel -. 異常検知 .-> DiesIrae
 
     %% --------------------------------
     %% カラーリングとスタイル定義
     %% --------------------------------
     classDef default fill:#f9f9f9,stroke:#333,stroke-width:1px;
-    classDef middleware fill:#17202a,stroke:#566573,stroke-width:2px,color:#ecf0f1;
-    classDef core fill:#fdfefe,stroke:#2c3e50,stroke-width:2px,color:#2c3e50;
-    classDef daemon fill:#0b5345,stroke:#148f77,stroke-width:2px,color:#fff;
-    classDef killswitch fill:#641e16,stroke:#e74c3c,stroke-width:2px,color:#fff;
-    classDef success fill:#145a32,stroke:#2ecc71,stroke-width:2px,color:#fff;
-    classDef chaos fill:#4a235a,stroke:#8e44ad,stroke-width:2px,color:#fff;
-    classDef healing fill:#154360,stroke:#2980b9,stroke-width:2px,color:#fff;
+    classDef ophanim fill:#1a252f,stroke:#34495e,stroke-width:2px,color:#ecf0f1;
+    classDef seraphim fill:#fdfefe,stroke:#f1c40f,stroke-width:2px,color:#2c3e50;
+    classDef cherubim fill:#145a32,stroke:#27ae60,stroke-width:2px,color:#fff;
+    classDef diesirae fill:#7b241c,stroke:#c0392b,stroke-width:2px,color:#fff;
+    classDef sanctuary fill:#1f618d,stroke:#2980b9,stroke-width:2px,color:#fff;
     
-    class Kageuchi,Tetsubishi,Hotarubi,Mizukagami,Hebi middleware;
-    class Samurai,Application,GozenJiai,Hyakuningiri core;
-    class Mimawarigumi,Kumonoito daemon;
-    class Kaishaku killswitch;
-    class Zanshin success;
-    class Tsujigiri,ChaosLayer chaos;
-    class RokudoRinne healing;
-```
+    class OphanimLayer,Uriel,Metatron,Gabriel,Jophiel,Raguel ophanim;
+    class SeraphimLayer,Michael,Application seraphim;
+    class CherubimLayer,Eternity,OphanimEye,Raziel cherubim;
+    class DiesIrae diesirae;
+    class Sanctuary sanctuary;
