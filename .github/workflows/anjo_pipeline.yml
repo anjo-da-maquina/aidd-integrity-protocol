@@ -67,11 +67,22 @@ jobs:
       - name: 12. 聖域 (Sanctuary - デプロイ許可)
         if: success()
         run: |
-          echo "すべての聖なる監査を通過。AIの思考と資金の流れに『穢れ』は存在しない。"
-          echo "これより本稼働環境へのアクセスを許可する。"
+          echo "すべての聖なる監査を通過。これより本稼働環境へのアクセスを許可する。"
 
-      - name: 13. 最後の審判 (Dies Irae - 連座制キルスイッチ)
+      - name: 13. 権天使の試練 (Principalities - 機能要件E2E監査)
+        if: success()
+        run: |
+          echo "=== 権天使の陣：『権天使の試練』による機能要件の実演証明を開始 ==="
+          python angels/principalities_e2e.py
+
+      - name: 14. 力天使の試練 (Virtues - 非機能要件負荷監査)
+        if: success()
+        run: |
+          echo "=== 力天使の陣：『力天使の試練』による高負荷耐性の証明を開始 ==="
+          python angels/virtues_load.py
+
+      - name: 15. 最後の審判 (Dies Irae - 連座制キルスイッチ)
         if: failure()
         run: |
-          echo "=== 致命的な穢れ（不正）を検知。最後の審判を実行する ==="
+          echo "=== 致命的な穢れ（不正・要件未達）を検知。最後の審判を実行する ==="
           python angels/dies_irae.py
