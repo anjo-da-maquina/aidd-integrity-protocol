@@ -19,8 +19,9 @@ except ImportError:
 
 class MetatronRevelation:
     def __init__(self):
-        self.divine_law_path = Path("covenant/001_divine_law.yml")
-        self.requirements_path = Path("covenant/002_requirements.yml")
+        # フォルダ名は premise
+        self.divine_law_path = Path("premise/001_divine_law.yml")
+        self.requirements_path = Path("premise/002_requirements.yml")
 
     def _read_covenant(self, file_path: Path) -> str:
         if not file_path.exists():
@@ -49,11 +50,11 @@ class MetatronRevelation:
 
 # --- MCPリソースとツールの定義 (FastMCP) ---
 if mcp:
-    @mcp.resource("covenant://divine_law")
+    @mcp.resource("premise://divine_law")
     def get_divine_law() -> str:
         return MetatronRevelation().reveal_divine_law()
 
-    @mcp.resource("covenant://requirements")
+    @mcp.resource("premise://requirements")
     def get_requirements() -> str:
         return MetatronRevelation().reveal_requirements()
 
@@ -73,6 +74,6 @@ if __name__ == "__main__":
         print("神の法が存在しない。AIへの啓示（コンテキスト注入）に失敗。最後の審判へ移行する。")
         sys.exit(1)
         
-    print("  ├─ [啓示完了] `covenant://divine_law` の注入テスト成功。")
-    print("  ├─ [啓示完了] `covenant://requirements` の注入テスト成功。")
+    print("  ├─ [啓示完了] `premise://divine_law` の注入テスト成功。")
+    print("  ├─ [啓示完了] `premise://requirements` の注入テスト成功。")
     print("[メタトロンの啓示 検証通過] AIは神の法を完全に理解した状態で推論を開始する。")
