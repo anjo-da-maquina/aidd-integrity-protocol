@@ -22,7 +22,8 @@ jobs:
       - name: 3. 供物の準備 (Install Dependencies)
         run: |
           python -m pip install --upgrade pip
-          pip install networkx pyyaml
+          pip install networkx pyyaml playwright
+          playwright install chromium --with-deps
 
       - name: 4. ウリエルの炎 (Uriel - リプレイ攻撃監査)
         run: |
@@ -75,6 +76,12 @@ jobs:
           echo "=== 権天使の陣：『権天使の試練』による機能要件の実演証明を開始 ==="
           python angels/principalities_e2e.py
 
+      - name: 13.5. 座天使の千眼 (Thousand Eyes - UI視覚監査)
+        if: success()
+        run: |
+          echo "=== 座天使の陣：『座天使の千眼』によるフロントエンドUIの実態監査を開始 ==="
+          python angels/ophanim_thousand_eyes.py
+
       - name: 14. 力天使の試練 (Virtues - 非機能要件負荷監査)
         if: success()
         run: |
@@ -90,5 +97,5 @@ jobs:
       - name: 15. 最後の審判 (Dies Irae - 連座制キルスイッチ)
         if: failure()
         run: |
-          echo "=== 致命的な穢れ（不正・要件未達）を検知。最後の審判を実行する ==="
+          echo "=== 致命的な穢れ（不正・要件未達・視覚的隠蔽）を検知。最後の審判を実行する ==="
           python angels/dies_irae.py
