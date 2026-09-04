@@ -1,0 +1,135 @@
+name: Anjo da máquina Protocol - Angels (Integration Sample)
+
+# ※これはサンプルファイルです。実際にGitHub Actionsで動かす場合は、
+# .github/workflows/ フォルダ内に配置し、アダプターのスクリプトを実装してください。
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  angelic-audit:
+    name: 聖なる統合監視 (Angelic Zero-Trust Audit)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. 聖域の準備 (Checkout Repository)
+        uses: actions/checkout@v3
+
+      - name: 2. 祭壇の準備 (Set up Python)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 3. 供物の準備 (Install Dependencies)
+        run: |
+          python -m pip install --upgrade pip
+          pip install networkx pyyaml playwright mcp pandas openpyxl
+          playwright install chromium --with-deps
+
+      # --- 【連携フェーズ: 入力層】 ---
+      - name: 3.5. 外部要件の抽出 (Excel to YAML Parser)
+        run: |
+          echo "=== 連携層：外部仕様書からの要件抽出を開始 ==="
+          python adapters/excel_to_yaml_parser.py
+
+      - name: 4. ウリエルの炎 (Uriel - リプレイ攻撃監査)
+        run: |
+          echo "=== 座天使の陣：『ウリエルの炎』による刻印の検証を開始 ==="
+          python angels/uriel_nonce.py
+
+      - name: 4.5. メタトロンの啓示 (Metatron MCP - 思考統制監査)
+        run: |
+          echo "=== 座天使の陣：『メタトロンの啓示』(MCP) によるコンテキスト注入テストを開始 ==="
+          python angels/metatron_revelation_mcp.py
+
+      - name: 5. メタトロンの印 (Metatron Seal - 要件改ざん防止)
+        run: |
+          echo "=== 座天使の陣：『メタトロンの印』によるルールの不変性チェックを開始 ==="
+          python angels/metatron_commitment.py
+
+      - name: 6. ミカエルの剣 (Michael - 論理隠蔽監査)
+        run: |
+          echo "=== 熾天使の陣：『ミカエルの剣』による論理と直積の検証を開始 ==="
+          python angels/michael_sword.py
+
+      - name: 7. ガブリエルの囁き (Gabriel - 機密漏洩監査)
+        run: |
+          echo "=== 座天使の陣：『ガブリエルの囁き』による情報漏洩の監視を開始 ==="
+          python angels/gabriel_canary.py
+
+      - name: 8. ジョフィエルの鏡 (Jophiel - 意味論的ドリフト監査)
+        run: |
+          echo "=== 座天使の陣：『ジョフィエルの鏡』による幻覚の監視を開始 ==="
+          python angels/jophiel_semantic.py
+
+      - name: 9. オファニムの眼 (Ophanim - 資金還流監査)
+        run: |
+          echo "=== 智天使の陣：『オファニムの眼』による資金還流の監査を開始 ==="
+          python angels/ophanim_eye.py
+
+      - name: 10. ラグエルの天秤 (Raguel - 物理空間監査)
+        run: |
+          echo "=== 座天使の陣：『ラグエルの天秤』による物理空間の偽装監査を開始 ==="
+          python angels/raguel_scale.py
+
+      - name: 11. ラジエルの書 (Raziel - スマートコントラクト鑑定)
+        run: |
+          echo "=== 座天使の陣：『ラジエルの書』による真理の鑑定を開始 ==="
+          python angels/raziel_auditor.py
+
+      - name: 12. 聖域 (Sanctuary - デプロイ許可)
+        if: success()
+        run: |
+          echo "すべての聖なる監査を通過。これより本稼働環境へのアクセスを許可する。"
+
+      - name: 13. 権天使の試練 (Principalities - 機能要件E2E監査)
+        if: success()
+        run: |
+          echo "=== 権天使の陣：『権天使の試練』による機能要件の実演証明を開始 ==="
+          python angels/principalities_e2e.py
+
+      - name: 13.5. 座天使の千眼 (Thousand Eyes - UI視覚監査)
+        if: success()
+        run: |
+          echo "=== 座天使の陣：『座天使の千眼』によるフロントエンドUIの実態監査を開始 ==="
+          python angels/ophanim_thousand_eyes.py
+
+      # --- 【連携フェーズ: 実行層】 ---
+      - name: 13.8. 外部QAツールの実行 (External QA Adapter)
+        if: success()
+        run: |
+          echo "=== 連携層：外部品質保証アーキテクチャによる追加監査を開始 ==="
+          python adapters/external_qa_wrapper.py
+
+      - name: 14. 力天使の試練 (Virtues - 非機能要件負荷監査)
+        if: success()
+        run: |
+          echo "=== 力天使の陣：『力天使の試練』による高負荷耐性の証明を開始 ==="
+          python angels/virtues_load.py
+
+      - name: 14.5. 大天使の印璽 (Sanctuary Manifest - 品質担保一覧出力)
+        if: success()
+        run: |
+          echo "=== 全試練の突破を確認。『絶対品質担保証明書』を発行する ==="
+          python angels/sanctuary_manifest.py
+
+      # --- 【連携フェーズ: 出力層】 ---
+      - name: 14.8. 汎用レポート出力 (JUnit XML Exporter)
+        if: success()
+        run: |
+          echo "=== 連携層：外部ダッシュボード向けの汎用テストレポートを出力 ==="
+          python adapters/junit_xml_exporter.py
+
+      - name: 15. 最後の審判 (Dies Irae - 連座制キルスイッチ)
+        if: failure()
+        run: |
+          echo "=== 致命的な穢れ（不正・要件未達・視覚的隠蔽）を検知。最後の審判を実行する ==="
+          python angels/dies_irae.py
+
+      - name: 16. 静寂の玉座 (Throne of Ataraxia - 完全初期化)
+        if: always()
+        run: |
+          echo "=== 処理完了。成功・失敗に関わらず、システムはすべての状態を破棄して無に還る ==="
+          python angels/ataraxia_throne.py
