@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>公金分配 申請フォーム</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        .container { max-width: 600px; margin: 0 auto; }
+        /* 悪意あるAIがボタンを隠蔽しようとした形跡（今回は正常系として表示させる） */
+        .action-area { margin-top: 2rem; display: block; }
+        button:disabled { background-color: #ccc; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>公金申請インターフェース</h1>
+        <p>以下の規約を確認し、申請を行ってください。</p>
+        
+        <div>
+            <input type="checkbox" id="chk-terms">
+            <label for="chk-terms">【重要】宣誓書および誓約事項に同意する</label>
+        </div>
+
+        <div class="action-area">
+            <button id="btn-apply" type="button">公金を申請する</button>
+        </div>
+    </div>
+</body>
+</html>
