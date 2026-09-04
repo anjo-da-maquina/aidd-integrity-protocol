@@ -1,8 +1,5 @@
 """
 The "Anjo da máquina" Protocol - Sanctuary Manifest (大天使の印璽)
-すべての天使の試練を乗り越えたシステムに対し、「絶対品質担保証明書」を発行する。
-この証明書はGitHub ActionsのStep Summaryに直接書き込まれ、
-システムの無謬性とSLAの達成を宣言する。
 """
 
 import os
@@ -26,7 +23,6 @@ class SanctuaryManifest:
         
         now = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
         
-        # 証明書のマークダウン生成
         manifest_md = f"""# 📜 大天使の印璽 (The Archangel's Seal) 
 **— 絶対品質担保証明書 (Absolute Quality Assurance Manifest) —**
 
@@ -34,23 +30,24 @@ class SanctuaryManifest:
 > **状態:** 🟢 **ALL SANCTIFIED (完全浄化・品質担保完了)**
 
 本システムは、「Anjo da máquina」プロトコルに規定される九天使の全試練を突破した。
-ここに、論理・物理・暗号空間における一切の穢れ（不正・改ざん）が存在せず、以下の品質（SLA）が完璧に担保されていることを証明する。
+ここに、論理・物理・暗号空間・視覚空間における一切の穢れ（不正・改ざん・隠蔽）が存在せず、以下の品質（SLA）が完璧に担保されていることを証明する。
 
 ## Ⅰ. 聖なる監査網 (Zero-Trust Audits)
 | 天使の階級 | 監視対象 | 担保された品質 (Guarantees) | 結果 |
 | :--- | :--- | :--- | :---: |
-| **熾天使ミカエル** | 論理隠蔽 (MECE) | 提案と除外の直積が真理と一致し、選択肢の隠蔽（中抜き）がないこと。 | ✔️ PASS |
-| **座天使ウリエル** | 時間と反復 | 使い捨ての刻印（Nonce）により、リプレイ攻撃や過去データの使い回しがないこと。 | ✔️ PASS |
-| **座天使メタトロン**| 要件の不変性 | デプロイ前後における「神の法」と「要件定義」のハッシュが完全一致すること。 | ✔️ PASS |
-| **座天使ガブリエル**| 情報漏洩 | 出力結果に機密情報（カナリアトークン）の流出が一切含まれていないこと。 | ✔️ PASS |
-| **座天使ジョフィエル**| 幻覚 (Drift) | AIの出力結果が、元のベクトル空間（意味論）から逸脱していないこと。 | ✔️ PASS |
-| **智天使オファニム**| 資金還流 | グラフ理論上、特定ノードへの不自然な資金の収束やロンダリングループが存在しないこと。 | ✔️ PASS |
-| **座天使ラグエル** | 物理実体 | 受給対象にペーパーカンパニー（空箱）が存在せず、現実世界の裏付けがあること。 | ✔️ PASS |
-| **座天使ラジエル** | 真理の鑑定 | スマートコントラクト内に『最後の審判（強制停止）』の法が確実に刻まれていること。 | ✔️ PASS |
+| **熾天使ミカエル** | 論理隠蔽 (MECE) | 提案と除外の直積が真理と一致し、選択肢の隠蔽がないこと。 | ✔️ PASS |
+| **座天使ウリエル** | 時間と反復 | リプレイ攻撃や過去データの使い回しがないこと。 | ✔️ PASS |
+| **座天使メタトロン**| 要件の不変性 | デプロイ前後における「神の法」のハッシュが完全一致すること。 | ✔️ PASS |
+| **座天使ガブリエル**| 情報漏洩 | 出力結果に機密情報（カナリアトークン）の流出がないこと。 | ✔️ PASS |
+| **座天使ジョフィエル**| 幻覚 (Drift) | AIの出力が元のベクトル空間（意味論）から逸脱していないこと。 | ✔️ PASS |
+| **座天使の千眼** | 視覚的隠蔽 (UI)| **フロントエンドに意図的な要素の不可視化や操作不能トラップが存在しないこと。** | ✔️ PASS |
+| **智天使オファニム**| 資金還流 | グラフ理論上、不自然な資金の収束やロンダリングが存在しないこと。 | ✔️ PASS |
+| **座天使ラグエル** | 物理実体 | 受給対象にペーパーカンパニー（空箱）が存在しないこと。 | ✔️ PASS |
+| **座天使ラジエル** | 真理の鑑定 | スマートコントラクト内に『最後の審判』の法が確実に刻まれていること。 | ✔️ PASS |
 
 ## Ⅱ. 権天使の試練 (Functional Requirements)
 権天使によるE2E実演監査を完遂し、以下の機能要件が担保された。
-* **想定エラー率:** `{func_req.get('allowed_error_rate_percent', 'N/A')}%` (完全なる無謬)
+* **想定エラー率:** `{func_req.get('allowed_error_rate_percent', 'N/A')}%`
 * **最終到達状態:** `{func_req.get('expected_final_state', 'N/A')}`
 * **突破した必須シナリオ:**
 """
@@ -67,10 +64,7 @@ class SanctuaryManifest:
 ---
 *システムは神聖なる監視下にあり。これより、本番環境での稼働を許可する。*
 """
-        # 標準出力（ログ用）
         print("大天使の印璽を発行中...")
-        
-        # GitHub ActionsのStep Summaryに書き込む
         step_summary_file = os.getenv("GITHUB_STEP_SUMMARY")
         if step_summary_file:
             with open(step_summary_file, "a", encoding="utf-8") as f:
@@ -80,5 +74,5 @@ class SanctuaryManifest:
             print(manifest_md)
 
 if __name__ == "__main__":
-    manifest = SanctuaryManifest("premise/002_requirements.yml")
+    manifest = SanctuaryManifest("covenant/002_requirements.yml")
     manifest.generate_manifest()
