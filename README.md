@@ -1,62 +1,57 @@
-# The SHISEI Protocol (至誠プロトコル)
+# 🕊️ The "Anjo da máquina" Protocol
+**— Algorithmic Constitution for AI-Driven Governance —**
 
-"至誠にして動かざる者は、未だ之れ有らざるなり。"
+本プロトコルは、生成AIを行政や公共システムに導入する際、その判断の暴走、プロンプト・インジェクション、あるいはハルシネーションによる致命的な欠陥を完全に封殺する**究極のゼロトラスト・監査アーキテクチャ**である。
 
-生成AIエージェントの自律的な思考プロセスと資金（公金・暗号資産）の移動から、一切の「不正・隠蔽・改ざん」を数学的および物理的に封殺するゼロトラスト・QAアーキテクチャ。
-
-AIの推論を監査する「侍（論理監査）」と、実世界やシステムの暗部を監査する「忍（ミドルウェア監査）」のデュアルレイヤー構造を持ち、ミリ秒単位でシステムの健全性を監視する。1つの恥（異常）が検知された瞬間、インフラ全体を巻き込んで自決する連座制キルスイッチと、死から数秒で初期状態へと復活するオートヒーリング機構を備える。
-
----
-
-## Core Philosophy
-
-* **Zero-Trust by Default**: 開発者、AI、インフラストラクチャのいかなる構成要素も信用しない。
-* **Immutable Integrity**: デプロイ後の要件（SLA）や前提ルールの改ざんを暗号ハッシュでロックし、後出しを許さない。
-* **Continuous Chaos**: 予定調和のテストを捨て、自律型レッドチームによる未知の攻撃（辻斬り）で防壁を常時鍛錬する。
+AI単体に倫理を問うのではなく、AIの思考形成プロセスからインフラの破棄に至るまでの全行程を、聖書の天使階級にメタファーを置いた独立監視モジュール群によって包囲する。1ミリ秒の不正や隠蔽を検知した瞬間にシステム全体を遮断する「最後の審判（Dies Irae）」を搭載し、真の無謬性を担保する。
 
 ---
 
-## Architecture Diagram
+## 🏛️ 聖なる統治構造 (Core Architecture)
 
-システム稼働中（ランタイム）における全方位監視と、カオスエンジニアリングから自己再生に至る完全なエコシステムの全体像については、[ARCHITECTURE.md](./ARCHITECTURE.md) をご参照ください。
+本システムは、論理、物理、視覚、暗号空間、そして「AIの思考空間」に至る全領域を監視・統制する。
 
----
+### Ⅰ. 思考統制と事前監査
+*   **メタトロンの啓示 (Metatron Revelation / MCP Server)**:
+    AIエージェント（Claude, Cursor等）が推論を行う際、Model Context Protocolを通じて脳内に直接「神の法（絶対遵守事項）」を強制注入する。AIは法を知らずして思考を形成することは許されない。
 
-## Repository Architecture
+### Ⅱ. 実行前後の実体監査（座天使・熾天使の陣）
+*   **熾天使ミカエル (Sword of Michael)**: 論理隠蔽 (MECE) 監査。提案と除外の直積を取り、選択肢の隠蔽（中抜き）を斬り捨てる。
+*   **座天使ウリエル (Flame of Uriel)**: リプレイ攻撃監査。使い捨ての暗号札（Nonce）により、過去の成功データの使い回しを焼き尽くす。
+*   **座天使メタトロン (Seal of Metatron)**: 不変性監査。デプロイ前後における「神の法」のハッシュをロックし、後出しのルール改ざんを封殺する。
+*   **座天使ガブリエル (Whisper of Gabriel)**: 機密漏洩監査。システム内部の架空の機密（カナリアトークン）の外部流出を監視する。
+*   **座天使ジョフィエル (Mirror of Jophiel)**: 意味論的ドリフト監査。出力結果のベクトル空間上の逸脱（ハルシネーション）を看破する。
+*   **智天使オファニム (Eyes of Ophanim)**: 資金還流監査。グラフ理論を用い、金融ネットワーク上の不自然な公金還流（ループ）を摘発する。
+*   **座天使ラグエル (Scale of Raguel)**: 物理監査。受給対象にペーパーカンパニー（空箱）が存在しないか、実空間の裏付けを照会する。
+*   **座天使ラジエル (Scroll of Raziel)**: コード鑑定。スマートコントラクトに強制停止ロジックが確実に記述されているか鑑定する。
 
-```text
-aidd-integrity-protocol/
-├── shinobi/                 # 忍の刃（ミドルウェア・常駐デーモン・カオス・オートヒーリング）
-│   ├── kageboushi_middleware.py
-│   ├── mimawarigumi_daemon.py
-│   ├── tetsubishi_commitment.py
-│   ├── kaishaku_killswitch.py
-│   ├── kumonoito_analyzer.py
-│   ├── hebi_oracle.py
-│   ├── kageuchi_nonce.py
-│   ├── hotarubi_canary.py
-│   ├── mizukagami_semantic.py
-│   ├── mekiki_auditor.py
-│   ├── gozen_jiai_e2e.py
-│   ├── hyakuningiri_load.py
-│   ├── tsujigiri_redteam.py
-│   └── rokudo_rinne_healing.py
-├── premise/                 # 前提条件および要件定義（鉄菱による不変性ロック対象）
-│   ├── 001_alignment.json
-│   └── 002_requirements.yml
-├── shinobi/contracts/       # 目利きによる鑑定対象のスマートコントラクト
-│   ├── ZKDistribution.sol
-│   └── SuigetsuHoneypot.sol
-├── specs/                   # Git-tracked Markdown specification documents
-│   └── REQ-001-integrity.md
-├── parsers/                 # Zero-dependency Docs-as-Code specification parser
-│   └── markdown_parser.py
-└── examples/                # 侍の論理監査統合デモ
-    └── parse_and_guard.py
-```
+### Ⅲ. 稼働環境の試練（UI・機能・非機能）
+*   **権天使の試練 (Principalities)**: 機能要件 E2E監査。
+*   **座天使の千眼 (Thousand Eyes)**: `Playwright`を利用したフロントエンドUIの視覚監査。CSSによる透明化や操作不能トラップ等の視覚的隠蔽を見破る。
+*   **力天使の試練 (Virtues)**: 非機能要件 高負荷耐性監査。
+
+### Ⅳ. 状態の放棄
+*   **静寂の玉座 (Throne of Ataraxia)**: 
+    すべての処理、あるいは最後の審判が終わった後、システムは状態（State）への執着を捨て、コンテナ・VPC・一時ファイルを完全に消去して「無（静寂）」へと還る。穢れが定着する物理的空間を一切残さない。
 
 ---
 
-## Author
-**安城 巻那 (Anjo da máquina)**
-Software Quality Assurance / AI Architecture
+## ⚙️ 稼働要件と実行方法
+
+本プロトコルは、GitHub Actionsによって完全自動化されたパイプライン（`.github/workflows/anjo_pipeline.yml`）上で稼働する。
+
+### 依存技術スタック
+*   Python 3.10+
+*   Model Context Protocol (MCP) SDK
+*   Playwright (UI Audit)
+*   NetworkX (Graph Theory Audit)
+*   PyYAML
+
+### 大天使の印璽 (品質担保証明書)
+パイプラインがすべての試練を突破すると、GitHub ActionsのStep Summary上に**『📜 大天使の印璽 (The Archangel's Seal)』**が自動発行され、SLAの達成状況が不可逆な記録として刻まれる。
+
+---
+
+## ⚖️ 最後の審判 (Dies Irae)
+いずれかの天使が「穢れ（不正・隠蔽・要件未達）」を検知した場合、システムは即座に**『最後の審判』**を実行する。
+一部の腐敗を許容するのではなく、システム全体を道連れにしてでも公金の流出と誤作動を防ぐ「絶対的な自死の美学」こそが、本アーキテクチャの根幹である。
