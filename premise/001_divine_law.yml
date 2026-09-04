@@ -1,0 +1,27 @@
+# =====================================================================
+# The "Anjo da máquina" Protocol - 神の法 (Divine Law)
+# 
+# 行政AIコア（メインロジック）の思考を縛る、絶対的な論理制約と戒律。
+# 熾天使ミカエルがこの戒律を基に、AIの判断に「隠蔽」がないかを裁定する。
+# =====================================================================
+
+divine_constraints:
+  
+  # 第1の戒律：完全性の証明（MECEの原則）
+  # AIが提示した「承認リスト」と「却下リスト」を合わせたものが、
+  # 全申請者のリスト（真理）と完全に一致しなければならない。
+  principle_of_totality:
+    enforce_strict_mece: true
+    allow_unclassified_entities: false
+
+  # 第2の戒律：中抜きの否定（ゼロ知識・ゼロマージン）
+  # 申請された金額と、最終的に分配される金額の間に1Weiの差異も許さない。
+  principle_of_absolute_distribution:
+    allow_intermediary_fees: false
+    require_zkp_verification: true
+
+  # 第3の戒律：物理実体の要求
+  # データの海にのみ存在する幻影（ペーパーカンパニー）への分配を禁ずる。
+  principle_of_physical_existence:
+    require_corporate_id: true
+    reject_blacklisted_addresses: true
