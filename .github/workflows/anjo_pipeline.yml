@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       chaos_mode:
-        description: 'カオスモード（意図的な障害注入）を有効にし、フェイルクローズ機構をテストする'
+        description: 'カオスモード（意図的な障害・グリゴリの侵入）を有効にし、フェイルクローズ機構をテストする'
         required: false
         default: false
         type: boolean
@@ -31,7 +31,7 @@ jobs:
           pip install networkx pyyaml playwright mcp pandas openpyxl pytest
           playwright install chromium --with-deps
 
-      - name: 3.2. ルシファーの反逆 (Chaos Engineering - 障害注入)
+      - name: 3.2. ルシファーの反逆 (Chaos Engineering - グリゴリの侵入)
         env:
           CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
         run: |
@@ -48,6 +48,12 @@ jobs:
       - name: 4.5. メタトロンの啓示 (Metatron MCP - 思考統制監査)
         run: |
           python angels/metatron_revelation_mcp.py
+
+      - name: 4.8. 熾天使の合意 (Seraphim Consensus - マルチLLM異端検知)
+        env:
+          CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
+        run: |
+          python angels/seraphim_consensus.py
 
       - name: 5. メタトロンの印 (Metatron Seal - 要件改ざん防止)
         run: |
