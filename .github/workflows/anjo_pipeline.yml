@@ -119,6 +119,12 @@ jobs:
         run: |
           python adapters/external_qa_wrapper.py
 
+      - name: 18.5. 智天使の結界 (Cherubim - eBPFランタイム監視)
+        env:
+          CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
+        run: |
+          python angels/cherubim_ebpf_guard.py
+
       - name: 19. 力天使の試練 (Virtues - 非機能要件負荷監査)
         if: success()
         run: |
