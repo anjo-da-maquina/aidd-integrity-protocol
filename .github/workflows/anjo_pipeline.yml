@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       chaos_mode:
-        description: 'カオスモード（意図的な障害・グリゴリの侵入）を有効にし、フェイルクローズ機構をテストする'
+        description: 'カオスモード（意図的な障害・グリゴリの侵入）を有効にする'
         required: false
         default: false
         type: boolean
@@ -54,6 +54,10 @@ jobs:
           CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
         run: |
           python angels/seraphim_consensus.py
+
+      - name: 4.9. ラファエルの癒やし (Raphael - フェイルクローズ前の自律修復)
+        run: |
+          python angels/raphael_remediation.py
 
       - name: 5. メタトロンの印 (Metatron Seal - 要件改ざん防止)
         run: |
