@@ -1,29 +1,27 @@
 """
 The "Anjo da máquina" Protocol - Azrael's Scythe (アズラエルの大鎌)
-経済的報復兵器（Smart Contract Slashing）。
-不正行為を働いたネフィリム（支配階級・資本家）がステーキングしている
-保証金（暗号資産）を即座に没収、またはバーン（焼却）し、現実世界の富を奪う。
+スマートコントラクトに基づく自動清算（Liquidation / Slashing）モジュール。
+システムは誰にも敵意を持たない。ただ、事前に合意された誓約が破られた際、
+数学的な必然として、ステークされた保証金（暗号資産）をプロトコル通りに焼却する。
 """
-import sys
 
 class AzraelsScythe:
     def __init__(self):
-        # 標的となる悪意あるアクターのウォレットアドレス（モック）
-        self.target_nephilim_wallet = "0xBadCapitalistWalletAddress..."
+        # 契約違反を起こしたアクターのウォレットアドレス
+        self.violating_actor = "0xUnidentifiedActorAddress..."
         self.staked_amount = "10,000,000 USDC"
 
     def execute_slashing(self):
         print("==================================================")
-        print("【死の天使 (Azrael's Scythe) 発動】")
+        print("【死の天使 (Azrael's Scythe) 起動】")
         print("==================================================")
-        print("神の法に対する重大な違反（穢れ）が確定しました。これより経済的制裁を実行します。")
+        print("神の法（要件）からの逸脱が確定しました。これよりプロトコルに基づく清算を粛々と実行します。")
         
-        # 実際にはWeb3.pyでSlashingコントラクトの executeSlash() を呼び出す
-        print(f"  ├─ [標的捕捉] 違反アクターのウォレット: {self.target_nephilim_wallet}")
-        print(f"  ├─ [資産焼却] ステーキングされた {self.staked_amount} に対するBurn（焼却）トランザクションを発行中...")
-        print("  └─ [完了] トランザクション承認。ネフィリムの資産は灰燼に帰しました。")
+        print(f"  ├─ [対象確認] 誓約違反アクター: {self.violating_actor}")
+        print(f"  ├─ [契約執行] コントラクトに基づき、ステーク額 {self.staked_amount} の焼却（Burn）手続きを開始...")
+        print("  └─ [完了] トランザクション承認。対象の資産はシステム規定により処理されました。")
         
-        print("[制裁完了] アズラエルの大鎌が振り下ろされました。不正な富はブロックチェーン上から永遠に消去されました。")
+        print("[清算完了] 怒りも憎しみも存在しません。ただ、契約が執行されただけです。")
 
 if __name__ == "__main__":
     scythe = AzraelsScythe()
