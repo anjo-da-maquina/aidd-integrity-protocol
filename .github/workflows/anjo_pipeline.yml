@@ -112,6 +112,11 @@ jobs:
         run: |
           python angels/sanctuary_manifest.py
 
+      - name: 21.5. サンダルフォンの楔 (Sandalphon Anchor - 証跡のブロックチェーン刻印)
+        if: success()
+        run: |
+          python angels/sandalphon_anchor.py
+
       - name: 22. 汎用レポート出力 (JUnit XML Exporter)
         if: success()
         run: |
