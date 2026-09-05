@@ -145,10 +145,28 @@ jobs:
         if: success()
         run: python angels/heavenly_tablets_zkp.py
 
-      - name: 23. 最後の審判 (Dies Irae - 連座制キルスイッチ)
+      # ==========================================
+      # 【報復と制裁のフェーズ (The Retaliation)】
+      # ==========================================
+      - name: 22.8. ゲヘナの劫火 (Gehenna - 敵対的データ逆流攻撃)
+        if: failure() || cancelled()
+        run: python angels/gehenna_hellfire_decoy.py
+
+      - name: 22.9. アズラエルの大鎌 (Azrael - スマートコントラクト没収)
+        if: failure() || cancelled()
+        run: python angels/azrael_scythe_slashing.py
+
+      - name: 23.0. 黙示録の七つのラッパ (Seven Trumpets - 分散型暴露)
+        if: failure() || cancelled()
+        run: python angels/seven_trumpets_leak.py
+
+      # ==========================================
+      # 【終焉のフェーズ (The End of Days)】
+      # ==========================================
+      - name: 23.5. 最後の審判 (Dies Irae - 連座制キルスイッチ)
         if: failure() || cancelled()
         run: python angels/dies_irae.py
 
-      - name: 24. 静寂の玉座 (Throne of Ataraxia - 完全初期化)
+      - name: 24. 静寂の玉座 (Throne of Ataraxia - 完全初期化・浄化)
         if: always()
         run: python angels/ataraxia_throne.py
