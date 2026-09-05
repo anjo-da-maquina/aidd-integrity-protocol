@@ -4,6 +4,12 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      chaos_mode:
+        description: 'カオスモード（意図的な障害注入）を有効にし、フェイルクローズ機構をテストする'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   angelic-audit:
@@ -24,6 +30,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install networkx pyyaml playwright mcp pandas openpyxl pytest
           playwright install chromium --with-deps
+
+      - name: 3.2. ルシファーの反逆 (Chaos Engineering - 障害注入)
+        env:
+          CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
+        run: |
+          python angels/lucifer_rebellion.py
 
       - name: 3.5. 外部要件の抽出 (Excel to YAML Parser)
         run: |
