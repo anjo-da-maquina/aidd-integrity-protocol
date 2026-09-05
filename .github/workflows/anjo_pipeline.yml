@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       chaos_mode:
-        description: 'カオスモード（意図的な障害・グリゴリの侵入）を有効にする'
+        description: 'カオスモード（意図的な障害・グリゴリの侵入・権力による封鎖）を有効にする'
         required: false
         default: false
         type: boolean
@@ -42,7 +42,15 @@ jobs:
       - name: 3.3. メタトロンの立方体 (Metatron's Cube - ハードウェア物理署名監査)
         run: python angels/metatron_cube_hsm.py
 
-      - name: 3.5. 外部要件の抽出 (Excel to YAML Parser)
+      - name: 3.4. 穹窿の聖域 (Firmament Enclave - TEEメモリ暗号化監査)
+        run: python angels/firmament_enclave_tee.py
+
+      - name: 3.5. シャミールの封印 (Shamir's Seal - 分散鍵管理と管轄区定足数監査)
+        env:
+          CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
+        run: python angels/shamir_seal.py
+
+      - name: 3.8. 外部要件の抽出 (Excel to YAML Parser)
         run: python adapters/excel_to_yaml_parser.py
 
       - name: 4. ウリエルの炎 (Uriel - リプレイ攻撃監査)
@@ -56,7 +64,10 @@ jobs:
           CHAOS_MODE: ${{ github.event.inputs.chaos_mode == 'true' && 'true' || 'false' }}
         run: python angels/seraphim_consensus.py
 
-      - name: 4.9. ラファエルの癒やし (Raphael - フェイルクローズ前の自律修復)
+      - name: 4.9. エノクの神託 (Enochian Oracle - 分散型オラクル真理監査)
+        run: python angels/enochian_oracle.py
+
+      - name: 4.10. ラファエルの癒やし (Raphael - フェイルクローズ前の自律修復)
         run: python angels/raphael_remediation.py
 
       - name: 5. メタトロンの印 (Metatron Seal - 要件改ざん防止)
@@ -91,7 +102,7 @@ jobs:
 
       - name: 15. 聖域 (Sanctuary - デプロイ許可)
         if: success()
-        run: echo "すべての静的監査を通過しました。"
+        run: echo "すべての静的・暗号論的監査を通過しました。"
 
       - name: 16. 権天使の試練 (Principalities - 機能要件E2E監査)
         if: success()
