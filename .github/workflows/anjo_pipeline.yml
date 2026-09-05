@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       chaos_mode:
-        description: 'カオスモード（意図的な障害・グリゴリの侵入・権力による封鎖）を有効にする'
+        description: 'カオスモード（システムへの異常混入と定足数未達）をシミュレートする'
         required: false
         default: false
         type: boolean
@@ -146,19 +146,19 @@ jobs:
         run: python angels/heavenly_tablets_zkp.py
 
       # ==========================================
-      # 【報復と制裁のフェーズ (The Retaliation)】
+      # 【是正と普遍的記録のフェーズ (Correction & Ledger)】
       # ==========================================
-      - name: 22.8. ゲヘナの劫火 (Gehenna - 敵対的データ逆流攻撃)
+      - name: 22.8. ゲヘナの虚無 (Gehenna - 観測者へのエントロピー返却)
         if: failure() || cancelled()
-        run: python angels/gehenna_hellfire_decoy.py
+        run: python angels/gehenna_void_entropy.py
 
-      - name: 22.9. アズラエルの大鎌 (Azrael - スマートコントラクト没収)
+      - name: 22.9. アズラエルの大鎌 (Azrael - スマートコントラクト清算)
         if: failure() || cancelled()
         run: python angels/azrael_scythe_slashing.py
 
-      - name: 23.0. 黙示録の七つのラッパ (Seven Trumpets - 分散型暴露)
+      - name: 23.0. 黙示録の七つのラッパ (Seven Trumpets - 不変事象の普遍的公開)
         if: failure() || cancelled()
-        run: python angels/seven_trumpets_leak.py
+        run: python angels/seven_trumpets_ledger.py
 
       # ==========================================
       # 【終焉のフェーズ (The End of Days)】
